@@ -1,636 +1,265 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Sanremo LMIV – Nährwerte 100% Korrekt</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanremo Gelato – Eistorten & Gelato aus Bad Berleburg</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root { --bg: #0c111c; --surface: #141a29; --card: #1a2133; --border: #2a3348; --text: #edf2fb; --text-muted: #9aa8bf; --primary: #2ecc71; --primary-dark: #25a55c; --danger: #e74c3c; --warning: #f39c12; --info: #3498db; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; line-height: 1.5; }
-    .app-header { background: rgba(20, 26, 41, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
-    .app-header h1 { font-size: 1.7rem; background: linear-gradient(135deg, #fff, #86efac); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .app-header p { font-size: 0.85rem; color: var(--text-muted); }
-    .layout { display: flex; min-height: calc(100vh - 88px); }
-    .sidebar { width: 280px; background: var(--surface); border-right: 1px solid var(--border); padding: 1.5rem 1rem; flex-shrink: 0; overflow-y: auto; }
-    .nav-btn { width: 100%; text-align: left; background: transparent; border: none; color: var(--text-muted); padding: 0.75rem 1rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 0.5rem; font-size: 0.9rem; }
-    .nav-btn:hover { background: var(--border); color: white; }
-    .nav-btn.active { background: var(--primary-dark); color: #0a2f1f; box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2); }
-    .main { flex: 1; padding: 1.8rem; overflow-y: auto; }
-    .screen { display: none; animation: fadeIn 0.25s ease; }
-    .screen.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 1.25rem; padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.2rem; }
-    .col-span-12 { grid-column: span 12; }
-    .col-span-6 { grid-column: span 6; }
-    .col-span-5 { grid-column: span 5; }
-    .col-span-4 { grid-column: span 4; }
-    .col-span-3 { grid-column: span 3; }
-    .col-span-7 { grid-column: span 7; }
-    .col-span-8 { grid-column: span 8; }
-    h2 { font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem; letter-spacing: -0.3px; }
-    h3 { font-size: 1.1rem; font-weight: 600; margin: 0.75rem 0; }
-    label { display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 0.3rem; }
-    input, select, textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 0.6rem 0.8rem; border-radius: 10px; font-size: 0.9rem; transition: 0.15s; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(46,204,113,0.2); }
-    button { background: var(--primary); border: none; font-weight: 700; padding: 0.5rem 1.2rem; border-radius: 10px; cursor: pointer; transition: 0.1s; color: #052e16; font-size: 0.85rem; margin-right: 0.5rem; margin-top: 0.5rem; }
-    button.secondary { background: var(--border); color: white; }
-    button.danger { background: var(--danger); color: white; }
-    .pill { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 30px; font-size: 0.7rem; font-weight: 700; margin-right: 0.5rem; margin-bottom: 0.5rem; }
-    .pill.success { background: rgba(46,204,113,0.2); color: #a3e4c0; }
-    .pill.warning { background: rgba(243,156,18,0.2); color: #f8c471; }
-    .pill.error { background: rgba(231,76,60,0.2); color: #f5b7b1; }
-    .pill.info { background: rgba(52,152,219,0.2); color: #7fb3d5; }
-    .product-item, .recipe-item { background: var(--surface); border-radius: 12px; padding: 0.8rem; margin-bottom: 0.8rem; border-left: 3px solid var(--primary); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-    .badge { background: var(--border); padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    hr { border-color: var(--border); margin: 1rem 0; }
-    .preview-box { background: #fefefe; color: #111; border-radius: 14px; padding: 1.2rem; font-family: 'Courier New', monospace; white-space: pre-wrap; font-size: 0.85rem; line-height: 1.4; border: 1px solid #ccc; max-height: 70vh; overflow-y: auto; }
-    .tech-sheet { background: #fefefe; color: #111; border-radius: 14px; padding: 1.5rem; font-family: 'Segoe UI', 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.5; border: 1px solid #ccc; max-width: 100%; overflow-x: auto; max-height: 70vh; overflow-y: auto; }
-    .tech-sheet h2 { color: #1a5276; border-bottom: 2px solid #2ecc71; padding-bottom: 0.5rem; margin-top: 1rem; }
-    .tech-sheet h3 { color: #2c3e50; margin-top: 1rem; }
-    .tech-sheet table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
-    .tech-sheet th, .tech-sheet td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; vertical-align: top; }
-    .tech-sheet th { background: #e8f0fe; }
-    .progress-bar { background: var(--border); border-radius: 20px; height: 6px; overflow: hidden; margin: 0.5rem 0; }
-    .progress-fill { background: var(--primary); height: 100%; width: 0%; transition: width 0.2s; }
-    @media print { body * { visibility: hidden; } .tech-sheet, .tech-sheet * { visibility: visible; } .tech-sheet { position: absolute; top: 0; left: 0; width: 100%; margin: 0; padding: 1rem; } }
-    @media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); } .col-span-6, .col-span-5, .col-span-4, .col-span-7, .col-span-8 { grid-column: span 12; } }
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --cream:#fbf3e8;
+      --cream2:#fffaf3;
+      --brown:#3b1d11;
+      --red:#9b1116;
+      --red2:#7f0d12;
+      --gold:#c79b52;
+      --muted:#6b584c;
+      --line:#ead8c4;
+      --green:#198754;
+      --shadow:0 18px 50px rgba(59,29,17,.13);
+      --radius:24px;
+    }
+    body{font-family:Arial,Helvetica,sans-serif;background:var(--cream2);color:var(--brown);line-height:1.45}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+
+    /* TOP */
+    .topbar{background:var(--brown);color:#fff;text-align:center;padding:9px 14px;font-size:14px;font-weight:700}
+    header{position:sticky;top:0;background:rgba(255,250,243,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);z-index:50}
+    .nav{max-width:1240px;margin:auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .logo{font-family:Georgia,serif;font-size:42px;font-style:italic;letter-spacing:-1.5px;color:var(--brown);line-height:.9}
+    .logo small{display:block;font-family:Arial,sans-serif;font-size:12px;letter-spacing:4px;font-style:normal;margin-top:10px;color:#5c3a29;text-transform:uppercase}
+    .navlinks{display:flex;gap:28px;font-weight:800;font-size:15px;color:#2e1a10}
+    .navlinks a.active,.navlinks a:hover{color:var(--red)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;background:var(--red);color:#fff;padding:13px 20px;font-weight:900;cursor:pointer;box-shadow:0 10px 22px rgba(155,17,22,.2)}
+    .btn:hover{background:var(--red2)}
+    .btn.outline{background:transparent;color:var(--red);border:1px solid var(--red);box-shadow:none}
+    .btn.green{background:#25D366;color:#fff}
+
+    /* HERO */
+    .hero{background:radial-gradient(circle at 70% 20%,#fff 0,#f8ebdd 42%,#f6e3cf 100%);overflow:hidden}
+    .heroInner{max-width:1240px;margin:auto;min-height:650px;padding:54px 20px 40px;display:grid;grid-template-columns:1fr 1.15fr;align-items:center;gap:30px}
+    .kicker{display:inline-flex;align-items:center;gap:8px;color:var(--red);font-weight:900;margin-bottom:18px;letter-spacing:.4px}
+    .hero h1{font-family:Georgia,serif;font-size:58px;line-height:1.02;letter-spacing:-1.8px;margin-bottom:8px}
+    .script{font-family:Georgia,serif;font-size:34px;font-style:italic;color:var(--red);margin-bottom:20px}
+    .hero p{font-size:18px;color:#4d372b;max-width:540px;margin-bottom:24px}
+    .heroBtns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+    .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:610px}
+    .trustItem{text-align:center;font-size:13px;font-weight:700;color:#3d271c}
+    .trustIcon{font-size:28px;margin-bottom:7px}
+    .heroPhoto{position:relative;min-height:520px;border-radius:36px;background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.6)),url('27909.jpg');background-size:cover;background-position:center;box-shadow:var(--shadow);border:8px solid rgba(255,255,255,.7)}
+    .heroPhoto:before{content:"Eistorten nach Wunsch";position:absolute;right:24px;top:24px;background:rgba(255,255,255,.93);color:var(--red);font-weight:900;border-radius:999px;padding:12px 18px;box-shadow:0 10px 25px rgba(0,0,0,.12)}
+    .priceBubble{position:absolute;left:24px;bottom:24px;background:var(--brown);color:#fff;border-radius:22px;padding:18px 20px;box-shadow:0 12px 25px rgba(0,0,0,.22)}
+    .priceBubble b{display:block;font-size:26px;color:#ffd89b}
+
+    /* SECTIONS */
+    section{max-width:1240px;margin:auto;padding:58px 20px}
+    .sectionHead{text-align:center;margin-bottom:28px}
+    .sectionHead h2{font-family:Georgia,serif;font-size:36px;letter-spacing:-.5px;margin-bottom:8px}
+    .sectionHead p{color:var(--muted);font-size:17px}
+
+    .cakeStrip{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+    .miniCard{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(59,29,17,.08)}
+    .miniImg{height:140px;background:#ddd;background-size:cover;background-position:center}
+    .miniCard p{text-align:center;font-weight:800;padding:10px 6px;font-size:13px}
+
+    .featureGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+    .feature{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+    .featureImg{height:230px;background:#eee;background-size:cover;background-position:center}
+    .featureBody{padding:24px}
+    .feature h3{font-family:Georgia,serif;font-size:27px;margin-bottom:10px}
+    .feature p{color:var(--muted);margin-bottom:16px}
+    .list{display:grid;gap:8px;margin:14px 0}
+    .list div{font-weight:800;color:#4b2b1b}.list div:before{content:"✓";color:var(--green);font-weight:900;margin-right:8px}
+
+    /* BUILDER */
+    .builder{background:linear-gradient(135deg,#fff,#fff7ed);border:2px solid var(--red);border-radius:34px;padding:28px;box-shadow:var(--shadow)}
+    .builderTop{display:grid;grid-template-columns:.85fr 1.15fr;gap:24px;align-items:stretch}
+    .builderPhoto{border-radius:26px;background:url('27907.jpg');background-size:cover;background-position:center;min-height:430px;box-shadow:inset 0 0 0 999px rgba(0,0,0,.02)}
+    .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
+    .step{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;font-weight:800;color:#4a2d18}
+    .step b{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;margin-right:8px}
+    .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#7a5a44;font-weight:900;margin-bottom:6px}
+    input,select,textarea{width:100%;border:1px solid #d8c3ad;background:#fff;border-radius:14px;padding:12px 13px;font-size:15px;color:#2b170d}
+    textarea{min-height:88px;resize:vertical}.full{grid-column:1/-1}
+
+    /* DELIVERY */
+    .deliveryGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+    .deliveryBox{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;text-align:center;box-shadow:0 10px 25px rgba(59,29,17,.08)}
+    .deliveryBox .icon{font-size:42px;margin-bottom:10px}.deliveryBox h3{color:var(--red);font-size:22px;margin-bottom:8px}
+    .warning{background:#fff2d7;border:1px solid #f1c56d;color:#5a3300;border-radius:18px;padding:18px;margin-top:18px;font-weight:800}
+
+    /* ABOUT */
+    .about{display:grid;grid-template-columns:.85fr 1.15fr;gap:20px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:32px;padding:24px;box-shadow:var(--shadow)}
+    .aboutImg{min-height:360px;border-radius:24px;background:url('27915.jpg');background-size:cover;background-position:center}
+    .about h2{font-family:Georgia,serif;font-size:38px;margin-bottom:12px}.about p{color:var(--muted);font-size:17px;margin-bottom:15px}
+
+    .whatsappFixed{position:fixed;right:18px;bottom:18px;z-index:90;background:#25D366;color:#fff;border-radius:999px;padding:15px 20px;font-weight:900;box-shadow:0 10px 25px rgba(0,0,0,.25)}
+    footer{background:var(--brown);color:#fff;margin-top:40px;padding:34px 20px;text-align:center}footer p{color:#ead8c4;margin-top:6px}
+
+    @media(max-width:980px){
+      .heroInner,.builderTop,.about{grid-template-columns:1fr}.hero h1{font-size:45px}.heroPhoto{min-height:430px}.cakeStrip{grid-template-columns:repeat(3,1fr)}.featureGrid,.deliveryGrid{grid-template-columns:1fr}.navlinks{display:none}.trust{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:560px){
+      .logo{font-size:34px}.heroInner{padding-top:35px}.hero h1{font-size:37px}.script{font-size:27px}.cakeStrip{grid-template-columns:1fr 1fr}.formGrid,.steps{grid-template-columns:1fr}.whatsappFixed{left:14px;right:14px;text-align:center}.heroPhoto{min-height:360px}
+    }
   </style>
 </head>
 <body>
-<div class="app-header">
-  <h1>🍦 Sanremo LMIV – Nährwerte 100% Korrekt</h1>
-  <p>100% gewichtsbasierte Zutatenliste • LMIV-konforme Etiketten • Präzise Nährwertberechnung • <span style="color:#2ecc71">✅ KORRIGIERTE VERSION</span></p>
-</div>
-<div class="layout">
-  <div class="sidebar">
-    <button class="nav-btn active" data-screen="dashboard">📊 Dashboard</button>
-    <button class="nav-btn" data-screen="products">📦 Produkte & Rohstoffe</button>
-    <button class="nav-btn" data-screen="recipes">🍨 Rezepte (grammgenau)</button>
-    <button class="nav-btn" data-screen="techsheets">📄 Technische Datenblätter</button>
-    <button class="nav-btn" data-screen="labelgen">🏷️ Etikett Generator</button>
-    <button class="nav-btn" data-screen="validation">⚖️ LMIV Konformitätsprüfung</button>
-    <button class="nav-btn" data-screen="backup">💾 Backup & Daten</button>
-    <div class="card" style="margin-top: 1.5rem;">
-      <div style="font-size:0.8rem;">✅ Nährwertberechnung 100% korrigiert</div>
-      <div style="font-size:0.75rem; color:var(--text-muted);">Zutaten werden immer nach Gewicht sortiert (größter Anteil zuerst) – LMIV Art. 18 Abs. 2</div>
+  <div class="topbar">🍨 Sanremo Gelato – Eistorten, Familienbecher & Lieferung in Bad Berleburg</div>
+  <header>
+    <div class="nav">
+      <a class="logo" href="#top">San Remo<small>Eiscafé & Gelato</small></a>
+      <nav class="navlinks">
+        <a class="active" href="#top">Startseite</a>
+        <a href="#eistorten">Eistorten</a>
+        <a href="#becher">Gelato & Becher</a>
+        <a href="#lieferung">Lieferung</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+      <a class="btn" href="https://wa.me/4917672809926?text=Hallo%20Sanremo%2C%20ich%20m%C3%B6chte%20gerne%20bestellen." target="_blank">📲 Jetzt bestellen</a>
     </div>
-  </div>
+  </header>
 
-  <div class="main">
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="screen active">
-      <div class="grid">
-        <div class="card col-span-12">
-          <h2>📋 Professionelle LMIV-Steuerung (100% Korrigiert)</h2>
-          <p>Dieses System berechnet <strong>Nährwerte präzise</strong> für jede Rezeptur. Einfach Produkte erstellen (mit 100% Zusammensetzung), Rezept mit Gramm-Mengen anlegen, und das Etikett generieren.</p>
-          <div class="two-col" style="margin-top: 1rem;">
-            <div><span class="pill success">✓ 41 Produkte integriert</span> <span class="pill success">✓ SANHE → SAHNE korrigiert</span></div>
-            <div><span class="pill success">✓ MILCHEIWEISS korrigiert</span> <span class="pill success">✓ Nährwerte 100% korrekt</span></div>
+  <main id="top">
+    <div class="hero">
+      <div class="heroInner">
+        <div>
+          <div class="kicker">🇮🇹 Handgemacht in Bad Berleburg</div>
+          <h1>Handgemachte Eistorten & Gelato</h1>
+          <div class="script">mit Liebe gemacht</div>
+          <p>Feinste Eistorten nach Wunsch, cremige Familienbecher und Gelateria-Klassiker. Einfach online auswählen, Datum setzen und per WhatsApp bestellen.</p>
+          <div class="heroBtns">
+            <a class="btn green" href="https://wa.me/4917672809926?text=Hallo%20Sanremo%2C%20ich%20m%C3%B6chte%20gerne%20eine%20Eistorte%20bestellen." target="_blank">📲 Per WhatsApp bestellen</a>
+            <a class="btn outline" href="#torten-konfigurator">Eistorte konfigurieren ›</a>
+          </div>
+          <div class="trust">
+            <div class="trustItem"><div class="trustIcon">🌿</div>Beste Zutaten</div>
+            <div class="trustItem"><div class="trustIcon">🍦</div>Frisch & cremig</div>
+            <div class="trustItem"><div class="trustIcon">🤎</div>Mit Liebe gemacht</div>
+            <div class="trustItem"><div class="trustIcon">🚚</div>Lieferung möglich</div>
           </div>
         </div>
-        <div class="card col-span-4"><h3>📊 Statistik</h3><div id="statsArea"></div></div>
-        <div class="card col-span-4"><h3>📌 Arbeitsablauf</h3><ol style="margin-left: 1.2rem;"><li>Produkte anlegen + Zusammensetzung 100%</li><li>Rezept mit Gramm-Mengen erstellen</li><li>LMIV-Prüfung durchführen</li><li>Etikett generieren (fertig für Druck)</li></ol></div>
-        <div class="card col-span-4"><h3>⚖️ Rechtliche Basis</h3><p>Zutaten nach absteigendem Gewichtsanteil – LMIV Art. 18 Abs. 2. Nährwerte pro 100g.</p></div>
-      </div>
-    </section>
-
-    <!-- PRODUKTE -->
-    <section id="products" class="screen">
-      <div class="grid">
-        <div class="card col-span-5">
-          <h2>➕ Produkt anlegen / bearbeiten</h2>
-          <input type="hidden" id="editProductId">
-          <label>Produktname</label><input id="prodName" placeholder="z.B. MILCH">
-          <label>Kategorie</label><select id="prodCategory"><option>Milchprodukt</option><option>PASTE</option><option>fettglasur</option><option>Frucht</option><option>Fett</option><option>Pulver</option><option>Emulgator</option><option>Zutat</option><option>Süße</option></select>
-          <label>Allergene (kommagetrennt, GROSS)</label><input id="prodAllergens" placeholder="MILCH, SOJA, GLUTEN">
-          <label>Spuren (Kann Spuren enthalten von...)</label><input id="prodSpuren" placeholder="Ei, Soja, Nüsse">
-          <div class="two-col"><div><label>kJ / 100g</label><input id="prodKj" type="number" step="any"></div><div><label>kcal / 100g</label><input id="prodKcal" type="number" step="any"></div></div>
-          <div class="two-col"><div><label>Fett (g)</label><input id="prodFat" step="any"></div><div><label>davon gesättigt</label><input id="prodSat" step="any"></div></div>
-          <div class="two-col"><div><label>Kohlenhydrate (g)</label><input id="prodCarb" step="any"></div><div><label>davon Zucker</label><input id="prodSugar" step="any"></div></div>
-          <div class="two-col"><div><label>Eiweiß (g)</label><input id="prodProtein" step="any"></div><div><label>Salz (g)</label><input id="prodSalt" step="any"></div></div>
-          <hr><h3>🧪 Exakte Zusammensetzung (100% Regel)</h3>
-          <div class="two-col"><div><label>Zutat / Rohstoff</label><input id="compName" placeholder="z.B. Vollmilch, Zucker"></div><div><label>Anteil (%)</label><input id="compPercent" type="number" step="0.01"></div></div>
-          <button onclick="addIngredientToCurrent()">➕ Zutat hinzufügen</button>
-          <button class="secondary" onclick="normalizeCurrentProduct()">↺ Auf 100% normalisieren</button>
-          <button class="secondary" onclick="sortCurrentComposition()">🔄 Nach Gewicht sortieren</button>
-          <div class="progress-bar"><div class="progress-fill" id="productPercentFill"></div></div>
-          <div id="currentCompositionList"></div>
-          <hr><button onclick="saveProduct()">💾 Produkt speichern</button><button class="secondary" onclick="clearProductForm()">🔄 Formular leeren</button>
+        <div class="heroPhoto">
+          <div class="priceBubble"><span>Familienbecher</span><b>750 g</b><span>auch zum Mitnehmen</span></div>
         </div>
-        <div class="card col-span-7"><h2>📋 Ihre Produktbibliothek (41 Produkte)</h2><div id="productsList" style="max-height: 600px; overflow-y: auto;"></div></div>
+      </div>
+    </div>
+
+    <section id="eistorten">
+      <div class="sectionHead">
+        <h2>Unsere Eistorten – für jeden Anlass</h2>
+        <p>Geburtstag, Kommunion, Konfirmation, Familie oder Firmenfeier.</p>
+      </div>
+      <div class="cakeStrip">
+        <div class="miniCard"><div class="miniImg" style="background-image:url('27921.jpg')"></div><p>Fruchtig & frisch</p></div>
+        <div class="miniCard"><div class="miniImg" style="background-image:url('27925.jpg')"></div><p>Schokoladenträume</p></div>
+        <div class="miniCard"><div class="miniImg" style="background-image:url('27923.jpg')"></div><p>Schokoladenliebhaber</p></div>
+        <div class="miniCard"><div class="miniImg" style="background-image:url('27907.jpg')"></div><p>Geburtstag</p></div>
+        <div class="miniCard"><div class="miniImg" style="background-image:url('27905.jpg')"></div><p>Kommunion</p></div>
+        <div class="miniCard"><div class="miniImg" style="background-image:url('27901.jpg')"></div><p>Individuelle Wünsche</p></div>
       </div>
     </section>
 
-    <!-- REZEPTE -->
-    <section id="recipes" class="screen">
-      <div class="grid">
-        <div class="card col-span-5">
-          <h2>🍨 Rezept erstellen</h2>
-          <input type="hidden" id="editRecipeId">
-          <label>Rezeptname</label><input id="recipeName">
-          <label>Verkehrsbezeichnung (LMIV)</label><input id="recipeLegal" value="Eiscreme">
-          <label>Verpackungsgröße (g oder ml)</label>
-          <select id="recipePackaging"><option value="100">100 g/ml</option><option value="170">170 g</option><option value="200">200 g/ml</option><option value="250">250 g/ml</option><option value="500">500 g/ml</option><option value="6000">6000 g</option><option value="custom">🔧 Benutzerdefiniert</option></select>
-          <div id="customPackagingContainer" style="display:none;"><input type="number" id="customPackaging" placeholder="Größe in g"></div>
-          <label>Aufbewahrung</label><input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.">
-          <label>Hersteller</label><input id="recipeManufacturer" value="Eiscafé Sanremo, Fürst Richard Str. 1, 57319 Bad Berleburg">
-          <label>MHD / Los</label><input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel.">
-          <hr><h3>➕ Zutat (Produkt + Gramm)</h3>
-          <div class="two-col"><div><label>Produkt</label><select id="recipeProductSelect"></select></div><div><label>Menge (g)</label><input id="recipeItemQty" type="number" step="0.1"></div></div>
-          <button onclick="addRecipeItem()">+ Zutat hinzufügen</button><button class="secondary" onclick="clearRecipeDraft()">Alle entfernen</button>
-          <div id="recipeTotalWeight"></div>
+    <section id="becher">
+      <div class="sectionHead">
+        <h2>Gelato, Becher & Boxen</h2>
+        <p>Für Zuhause, Wochenende, Gäste oder als Geschenk.</p>
+      </div>
+      <div class="featureGrid">
+        <div class="feature">
+          <div class="featureImg" style="background-image:url('27929.jpg')"></div>
+          <div class="featureBody"><h3>Familienbecher</h3><p>Viele Sorten im 750 g Becher für die ganze Familie.</p><div class="list"><div>Vanille, Schokolade, Cookies</div><div>Amarena, Stracciatella, Toffifee</div><div>Auch als Wochenend-Box</div></div><a href="#" class="btn">Sorten ansehen</a></div>
         </div>
-        <div class="card col-span-7"><h2>📊 Aktuelle Rezeptpositionen</h2><div style="overflow-x:auto;"><table id="recipeItemsTable"></table></div><button onclick="saveRecipe()">💾 Rezept speichern</button><hr><h2>📁 Ihre Rezepte</h2><div id="savedRecipesList"></div></div>
+        <div class="feature">
+          <div class="featureImg" style="background-image:url('27913.jpg')"></div>
+          <div class="featureBody"><h3>Gelateria Klassiker</h3><p>Spaghetti Eis, Cookies, Kinder, Amarena und weitere Klassiker.</p><div class="list"><div>Frisch vorbereitet</div><div>Perfekt zum Abholen</div><div>Auch für Lieferung</div></div><a href="#" class="btn">Becher wählen</a></div>
+        </div>
+        <div class="feature">
+          <div class="featureImg" style="background-image:url('27911.jpg')"></div>
+          <div class="featureBody"><h3>Boxen & Sets</h3><p>Stelle dir eine Eisbox zusammen – ideal für Familie, Besuch oder Firmenpause.</p><div class="list"><div>6er / 12er / Familienbox</div><div>Sorten frei wählbar</div><div>Termin auswählen</div></div><a href="#" class="btn">Box zusammenstellen</a></div>
+        </div>
       </div>
     </section>
 
-    <!-- TECHNISCHE DATENBLÄTTER -->
-    <section id="techsheets" class="screen">
-      <div class="grid">
-        <div class="card col-span-4"><h2>📄 Technisches Datenblatt - Produkt</h2><select id="techProductSelect"></select><button onclick="generateProductTechSheet()">📄 Datenblatt generieren</button><hr><h2>🍨 Technisches Datenblatt - Rezept</h2><select id="techRecipeSelect"></select><button onclick="generateRecipeTechSheet()">📄 Datenblatt generieren</button><hr><button class="secondary" onclick="printTechSheet()">🖨️ Drucken / PDF</button></div>
-        <div class="card col-span-8"><h2>📋 Vorschau Technisches Datenblatt</h2><div id="techSheetPreview" class="tech-sheet"><p style="color:#666;">Wählen Sie ein Produkt oder Rezept und klicken Sie auf "Datenblatt generieren".</p></div></div>
+    <section id="torten-konfigurator">
+      <div class="sectionHead">
+        <h2>Eistorte selbst gestalten</h2>
+        <p>Der Kunde wählt aus – du bestätigst Preis und Verfügbarkeit per WhatsApp.</p>
+      </div>
+      <div class="builder">
+        <div class="builderTop">
+          <div class="builderPhoto"></div>
+          <div>
+            <div class="steps">
+              <div class="step"><b>1</b>Größe wählen</div>
+              <div class="step"><b>2</b>Sorten wählen</div>
+              <div class="step"><b>3</b>Text & Extras</div>
+              <div class="step"><b>4</b>Datum & Uhrzeit</div>
+            </div>
+            <form class="formGrid" onsubmit="sendCakeOrder(event)">
+              <div><label>Größe</label><select id="cakeSize"><option>Klein</option><option>Mittel</option><option>Groß</option></select></div>
+              <div><label>Abholung / Lieferung</label><select id="cakeDelivery"><option>Abholung</option><option>Lieferung</option></select></div>
+              <div><label>1. Eissorte</label><select id="cakeFlavor1"><option>Vanille</option><option>Schokolade</option><option>Stracciatella</option><option>Amarena</option><option>Cookies</option><option>Spaghetti</option><option>Kinder</option><option>Toffifee</option></select></div>
+              <div><label>2. Eissorte</label><select id="cakeFlavor2"><option>Schokolade</option><option>Vanille</option><option>Stracciatella</option><option>Amarena</option><option>Cookies</option><option>Spaghetti</option><option>Kinder</option><option>Toffifee</option></select></div>
+              <div><label>Datum</label><input id="cakeDate" type="date"></div>
+              <div><label>Uhrzeit</label><input id="cakeTime" type="time"></div>
+              <div class="full"><label>Text auf der Torte</label><input id="cakeText" placeholder="z. B. Alles Gute Luca"></div>
+              <div class="full"><label>Extras / Wunsch</label><textarea id="cakeNotes" placeholder="z. B. Kinderschokolade, Erdbeeren, Pistazie, Oreo..."></textarea></div>
+              <div class="full"><button class="btn green" type="submit">📲 Bestellung per WhatsApp senden</button></div>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ETIKETT GENERATOR -->
-    <section id="labelgen" class="screen">
-      <div class="grid">
-        <div class="card col-span-4"><h2>🏷️ Etikett erstellen</h2><select id="labelRecipeSelect"></select><button onclick="generateLabel()">🏷️ Etikett generieren</button><button class="secondary" onclick="copyLabel()">📋 Kopieren</button><button class="secondary" onclick="downloadLabelTxt()">💾 Als TXT speichern</button></div>
-        <div class="card col-span-8"><h2>📄 LMIV-konforme Vorschau</h2><div class="preview-box" id="labelPreviewText">Bitte wählen Sie ein Rezept aus.</div></div>
+    <section>
+      <div class="about">
+        <div class="aboutImg"></div>
+        <div>
+          <h2>Über Sanremo</h2>
+          <p>Seit vielen Jahren stehen wir für handgemachte Eisspezialitäten und Eistorten in bester Qualität.</p>
+          <p>Jede Torte wird individuell vorbereitet – mit cremigem Eis, frischen Früchten, Schokolade und viel Liebe zum Detail.</p>
+          <a class="btn" href="https://wa.me/4917672809926?text=Hallo%20Sanremo%2C%20ich%20habe%20eine%20Frage%20zu%20Eistorten." target="_blank">Mehr erfahren</a>
+        </div>
       </div>
     </section>
 
-    <!-- VALIDIERUNG -->
-    <section id="validation" class="screen">
-      <div class="grid">
-        <div class="card col-span-4"><h2>⚖️ Rezept prüfen</h2><select id="validationSelect"></select><button onclick="validateRecipe()">Prüfung starten</button></div>
-        <div class="card col-span-8"><h2>📋 Prüfprotokoll</h2><div id="validationResult"></div></div>
+    <section id="lieferung">
+      <div class="sectionHead"><h2>Lieferung & Zahlung</h2><p>Klare Regeln, damit es für Kunden einfach und für dich rentabel bleibt.</p></div>
+      <div class="deliveryGrid">
+        <div class="deliveryBox"><div class="icon">📍</div><h3>Bad Berleburg</h3><p>Mindestbestellung ab <strong>20 €</strong>.</p></div>
+        <div class="deliveryBox"><div class="icon">🚚</div><h3>Umgebung</h3><p>Außerhalb nach Absprache, empfohlen ab <strong>35 €</strong>.</p></div>
+        <div class="deliveryBox"><div class="icon">💳</div><h3>Zahlung</h3><p>Bar, EC-Karte oder PayPal. Zahlung bei Lieferung möglich.</p></div>
       </div>
+      <div class="warning">Hinweis: Eistorten bitte rechtzeitig vorbestellen. Bei personalisierten Torten bestätigen wir Preis, Termin und Verfügbarkeit immer per WhatsApp.</div>
     </section>
+  </main>
 
-    <!-- BACKUP & DATEN -->
-    <section id="backup" class="screen">
-      <div class="grid">
-        <div class="card col-span-6"><h2>💾 Backup & Wiederherstellung</h2><button onclick="exportData()">📁 JSON Export (Backup)</button><button class="secondary" onclick="document.getElementById('importFile').click()">📂 JSON Import (Wiederherstellen)</button><input id="importFile" type="file" accept="application/json" style="display:none" onchange="importData(event)"><p style="font-size:0.75rem; margin-top:0.5rem;">Exportiert alle Produkte und Rezepte.</p></div>
-        <div class="card col-span-6"><h2>⚠️ Gefahrenzone</h2><button class="danger" onclick="resetAll()">🗑️ Alle Daten löschen (Reset)</button><p style="font-size:0.75rem; margin-top:0.5rem;">Achtung: Löscht alle Produkte und Rezepte unwiderruflich!</p></div>
-        <div class="card col-span-12"><h2>📄 Rohdaten (JSON)</h2><pre id="rawData" style="background:#0a0f1c; padding:1rem; border-radius:12px; overflow:auto; font-size:11px; max-height:300px;"></pre></div>
-      </div>
-    </section>
-  </div>
-</div>
+  <a class="whatsappFixed" href="https://wa.me/4917672809926?text=Hallo%20Sanremo%2C%20ich%20m%C3%B6chte%20gerne%20bestellen." target="_blank">📲 WhatsApp Bestellung</a>
 
-<script>
-  const STORAGE_KEY = 'sanremo_100_correct_v4';
-  let state = { products: [], recipes: [], recipeDraft: [] };
+  <footer id="kontakt">
+    <h3>Eiscafé Sanremo – Bad Berleburg</h3>
+    <p>Handgemachtes Gelato • Eistorten • Familienbecher • Lieferung & Abholung</p>
+    <p>Öffnungszeiten: täglich 12:00 – 20:30 Uhr • Freitag Ruhetag</p>
+  </footer>
 
-  // ========== TODOS OS 41 PRODUTOS CORRIGIDOS (SANHE → SAHNE, MILCHeiweiß → MILCHEIWEISS) ==========
-  const existingProducts = [
-    {"id":"p_milch","name":"MILCH","category":"Milchprodukt","allergens":"MILCH","spuren":"","nutrition":{"kj":267,"kcal":64,"fat":3.5,"sat":2.3,"carb":4.8,"sugar":4.8,"protein":3.3,"salt":0.1},"composition":[{"id":"c1","name":"MILCH","percent":100}]},
-    {"id":"p_dextrose","name":"Dextrose","category":"Pulver","allergens":"","spuren":"","nutrition":{"kj":1700,"kcal":400,"fat":0,"sat":0,"carb":100,"sugar":100,"protein":0,"salt":0},"composition":[{"id":"d1","name":"Dextrose","percent":100}]},
-    {"id":"p_sahne","name":"SAHNE","category":"Milchprodukt","allergens":"MILCH","spuren":"","nutrition":{"kj":1320,"kcal":314,"fat":33,"sat":20.9,"carb":3.4,"sugar":3.4,"protein":2.4,"salt":0.03},"composition":[{"id":"s1","name":"SAHNE","percent":100}]},
-    {"id":"p_magermilch","name":"MAGERMILCHPULVER","category":"Pulver","allergens":"MILCH","spuren":"","nutrition":{"kj":1480,"kcal":354,"fat":0.8,"sat":0.5,"carb":52,"sugar":52,"protein":35,"salt":1.1},"composition":[{"id":"mm1","name":"MAGERMILCHPULVER","percent":100}]},
-    {"id":"p_glukosepulver","name":"Glukosepulver","category":"Pulver","allergens":"","spuren":"","nutrition":{"kj":1570,"kcal":370,"fat":0,"sat":0,"carb":100,"sugar":100,"protein":0,"salt":0},"composition":[{"id":"gp1","name":"Glukosepulver","percent":100}]},
-    {"id":"p_zucker","name":"Zucker","category":"Süße","allergens":"","spuren":"","nutrition":{"kj":1700,"kcal":400,"fat":0,"sat":0,"carb":100,"sugar":100,"protein":0,"salt":0},"composition":[{"id":"z1","name":"Zucker","percent":100}]},
-    {"id":"p_glukosesirup","name":"Glukosesirup","category":"Süße","allergens":"","spuren":"","nutrition":{"kj":1570,"kcal":370,"fat":0,"sat":0,"carb":100,"sugar":100,"protein":0,"salt":0},"composition":[{"id":"gs1","name":"Glukosesirup","percent":100}]},
-    {"id":"p_joghurt","name":"Joghurt","category":"Milchprodukt","allergens":"MILCH","spuren":"","nutrition":{"kj":289,"kcal":69,"fat":3.5,"sat":2.3,"carb":4.4,"sugar":4.4,"protein":3.9,"salt":0.12},"composition":[{"id":"j1","name":"Joghurt","percent":100}]},
-    {"id":"p_kakaoglasur","name":"Kakaoglasur","category":"fettglasur","allergens":"SOJA","spuren":"","nutrition":{"kj":2589,"kcal":623,"fat":49.75,"sat":40.82,"carb":41.14,"sugar":40.96,"protein":2.1,"salt":0.1},"composition":[{"id":"kg1","name":"Kokosnussöl","percent":45},{"id":"kg2","name":"fettreduziertes Kakaopulver","percent":25},{"id":"kg3","name":"Rapsöl","percent":15},{"id":"kg4","name":"Zucker","percent":10},{"id":"kg5","name":"SOJALECITHIN","percent":3},{"id":"kg6","name":"Aromen","percent":2}]},
-    {"id":"p_milkcocoa","name":"MILK COCOA","category":"Milchprodukt","allergens":"MILCH, SOJA","spuren":"Kann Spuren von SCHALENFRÜCHTEN enthalten","nutrition":{"kj":1850,"kcal":450,"fat":25,"sat":15,"carb":55,"sugar":50,"protein":8,"salt":0.2},"composition":[{"id":"mc1","name":"Zucker","percent":40},{"id":"mc2","name":"Pflanzenöl (Sonnenblume, Palm)","percent":36.1},{"id":"mc3","name":"MAGERMILCHPULVER","percent":10},{"id":"mc4","name":"VOLLMILCHPULVER","percent":7},{"id":"mc5","name":"fettreduziertes Kakaopulver","percent":4},{"id":"mc6","name":"LAKTOSE","percent":2.5},{"id":"mc7","name":"SOJALECITHIN","percent":0.3},{"id":"mc8","name":"Aromen","percent":0.09},{"id":"mc9","name":"Rosmarinextrakt","percent":0.01}]},
-    {"id":"p_dunklecreme","name":"Dunkle Creme mit fettarmem Kakao","category":"PASTE","allergens":"MILCH, SOJA","spuren":"Kann Spuren von SCHALENFRÜCHTEN enthalten","nutrition":{"kj":2800,"kcal":680,"fat":68,"sat":10,"carb":15,"sugar":12,"protein":5,"salt":0.1},"composition":[{"id":"dc1","name":"Sonnenblumenöl","percent":43},{"id":"dc2","name":"Zucker","percent":33},{"id":"dc3","name":"fettarmes Kakaopulver","percent":21},{"id":"dc4","name":"Molkenpulver (MILCH)","percent":2.5},{"id":"dc5","name":"LAKTOSE","percent":0.4},{"id":"dc6","name":"SOJALECITHIN","percent":0.09},{"id":"dc7","name":"Rosmarinextrakt","percent":0.01},{"id":"dc8","name":"natürliches Aroma","percent":0.01}]},
-    {"id":"p_caramel","name":"CARAMEL","category":"PASTE","allergens":"MILCH, EI, SOJA, SCHALENFRÜCHTE","spuren":"Kann Spuren von SOJA, MILCH, EI, MANDELN, HASELNÜSSEN, WALNÜSSEN und PISTAZIEN enthalten","nutrition":{"kj":1023,"kcal":241,"fat":0,"sat":0,"carb":60,"sugar":53,"protein":0,"salt":0},"composition":[{"id":"ca1","name":"Karamell","percent":50},{"id":"ca2","name":"Glukosesirup","percent":20},{"id":"ca3","name":"Zucker","percent":10},{"id":"ca4","name":"Wasser","percent":10},{"id":"ca5","name":"Aromen","percent":5},{"id":"ca6","name":"natürliches Aroma","percent":3},{"id":"ca7","name":"Agar-Agar","percent":2}]},
-    {"id":"p_haselnuss","name":"Haselnusspaste (geröstet)","category":"PASTE","allergens":"SCHALENFRÜCHTE (HASELNÜSSE)","spuren":"Kann Spuren von MILCH, EI, SOJA, ERDNÜSSEN und SESAM enthalten","nutrition":{"kj":2843,"kcal":689,"fat":66.1,"sat":4.5,"carb":6.6,"sugar":4,"protein":14.8,"salt":0.6},"composition":[{"id":"hn1","name":"Haselnüsse geröstet","percent":100}]},
-    {"id":"p_erdbeerglasur","name":"Erdbeer Glasur","category":"PASTE","allergens":"MILCH, SOJA","spuren":"Kann Aktivität und Aufmerksamkeit bei Kindern beeinträchtigen","nutrition":{"kj":1059,"kcal":253,"fat":0.2,"sat":0.1,"carb":59,"sugar":43.1,"protein":0.2,"salt":0.25},"composition":[{"id":"eg1","name":"Glukosesirup","percent":35},{"id":"eg2","name":"Zucker","percent":25},{"id":"eg3","name":"Wasser","percent":20},{"id":"eg4","name":"Erdbeersaft","percent":10},{"id":"eg5","name":"Aromen","percent":3},{"id":"eg6","name":"Pektin","percent":3},{"id":"eg7","name":"Zitronensäure","percent":1},{"id":"eg8","name":"Sorbinsäure","percent":1},{"id":"eg9","name":"Alpha-Tocopherol","percent":1},{"id":"eg10","name":"Allurarot AC (E129)","percent":1}]},
-    {"id":"p_cookies","name":"COOKIES","category":"PASTE","allergens":"MILCH, EI","spuren":"Kann Spuren von SOJA, MANDELN, HASELNÜSSEN, WALNÜSSEN und PISTAZIEN enthalten","nutrition":{"kj":1250,"kcal":299,"fat":7,"sat":2.8,"carb":54.2,"sugar":40.8,"protein":4.8,"salt":1.1},"composition":[{"id":"co1","name":"Glukosesirup","percent":35},{"id":"co2","name":"gezuckerte Kondensmilch","percent":25},{"id":"co3","name":"Zucker","percent":15},{"id":"co4","name":"Eigelb","percent":8},{"id":"co5","name":"Wasser","percent":8},{"id":"co6","name":"modifizierte Stärke","percent":4},{"id":"co7","name":"Aromen","percent":2},{"id":"co8","name":"natürliche Aromen","percent":1},{"id":"co9","name":"Salz","percent":1},{"id":"co10","name":"Paprikaextrakt","percent":1}]},
-    {"id":"p_weisseschokolade","name":"Weiße Schokolade","category":"PASTE","allergens":"MILCH, SOJA","spuren":"Kann Spuren von EI, Mandeln, Haselnüsse, Walnüsse, Cashew, Pistazien, Erdnüsse, Sesam enthalten","nutrition":{"kj":2450,"kcal":588,"fat":40,"sat":8.9,"carb":50,"sugar":49,"protein":6.3,"salt":0},"composition":[{"id":"ws1","name":"Zucker","percent":35},{"id":"ws2","name":"pflanzliche Öle (Raps, Sonnenblume)","percent":25},{"id":"ws3","name":"pflanzliche Fette (Palm)","percent":15},{"id":"ws4","name":"MAGERMILCHPULVER","percent":10},{"id":"ws5","name":"Sahnepulver","percent":7},{"id":"ws6","name":"Kakaobutter","percent":6},{"id":"ws7","name":"Aromen","percent":1},{"id":"ws8","name":"SOJALECITHIN","percent":1}]},
-    {"id":"p_kakaopulver","name":"Kakaopulver (22/24%)","category":"Pulver","allergens":"SCHALENFRÜCHTE","spuren":"","nutrition":{"kj":2300,"kcal":550,"fat":23,"sat":14,"carb":10,"sugar":1,"protein":20,"salt":0.1},"composition":[{"id":"kp1","name":"Kakaopulver","percent":100}]},
-    {"id":"p_vanille","name":"Vanille","category":"PASTE","allergens":"","spuren":"Kann Spuren von SOJA, MILCH, EI und SCHALENFRÜCHTEN enthalten","nutrition":{"kj":1118,"kcal":263,"fat":0.4,"sat":0.1,"carb":61,"sugar":49,"protein":0,"salt":0.63},"composition":[{"id":"v1","name":"Zucker","percent":35},{"id":"v2","name":"Glukosesirup","percent":30},{"id":"v3","name":"Wasser","percent":15},{"id":"v4","name":"Aromen","percent":8},{"id":"v5","name":"Vanilleschoten gemahlen","percent":3},{"id":"v6","name":"Agar-Agar","percent":3},{"id":"v7","name":"Pektin","percent":2.9},{"id":"v8","name":"Karamell (E150c)","percent":2},{"id":"v9","name":"Paprikaextrakt","percent":1},{"id":"v10","name":"Vanilleextrakt","percent":0.1}]},
-    {"id":"p_pistazien","name":"Pistazien Creme","category":"PASTE","allergens":"MILCH, SCHALENFRÜCHTE, PISTAZIEN, SOJA","spuren":"Kann Spuren von anderen SCHALENFRÜCHTEN und ERDNÜSSEN enthalten","nutrition":{"kj":2423,"kcal":583,"fat":41.7,"sat":4.7,"carb":38.3,"sugar":37,"protein":12.5,"salt":0.5},"composition":[{"id":"pi1","name":"Sonnenblumenöl","percent":35},{"id":"pi2","name":"Pistazien","percent":25},{"id":"pi3","name":"Zucker","percent":15},{"id":"pi4","name":"MAGERMILCHPULVER","percent":10},{"id":"pi5","name":"Aromen","percent":8},{"id":"pi6","name":"SOJALECITHIN","percent":2},{"id":"pi7","name":"E141","percent":2},{"id":"pi8","name":"Kurkumin","percent":1},{"id":"pi9","name":"Salz","percent":1},{"id":"pi10","name":"Tocopherol","percent":1}]},
-    {"id":"p_amarena","name":"Amarena","category":"Frucht","allergens":"MILCH, EI, SOJA, ERDNÜSSE, SCHALENFRÜCHTE","spuren":"Kann Aktivität und Aufmerksamkeit bei Kindern beeinträchtigen","nutrition":{"kj":1075,"kcal":254,"fat":0,"sat":0,"carb":60.5,"sugar":60.5,"protein":0.3,"salt":0.5},"composition":[{"id":"am1","name":"Zucker","percent":40},{"id":"am2","name":"Sauerkirschen","percent":20},{"id":"am3","name":"Glukosesirup","percent":15},{"id":"am4","name":"Wasser","percent":10},{"id":"am5","name":"Frucht- und Gemüsekonzentrate","percent":5},{"id":"am6","name":"Aromen (Bittermandelöl)","percent":3},{"id":"am7","name":"E330, E331","percent":2},{"id":"am8","name":"E440","percent":2},{"id":"am9","name":"E129, E151","percent":2},{"id":"am10","name":"E202","percent":1}]},
-    {"id":"p_wasser","name":"Wasser","category":"Zutat","allergens":"","spuren":"","nutrition":{"kj":0,"kcal":0,"fat":0,"sat":0,"carb":0,"sugar":0,"protein":0,"salt":0},"composition":[{"id":"w1","name":"Wasser","percent":100}]},
-    {"id":"p_erdbeeren","name":"Erdbeeren tiefgefroren","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":142,"kcal":35,"fat":0.4,"sat":0,"carb":7.7,"sugar":4.9,"protein":0.6,"salt":0},"composition":[{"id":"eb1","name":"Erdbeeren","percent":100}]},
-    {"id":"p_himbeeren","name":"Himbeeren tiefgefroren","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":163,"kcal":39,"fat":0.5,"sat":0.1,"carb":5.4,"sugar":5.4,"protein":1.5,"salt":0},"composition":[{"id":"hm1","name":"Himbeeren","percent":100}]},
-    {"id":"p_banana","name":"Banana","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":397,"kcal":95,"fat":0.3,"sat":0.1,"carb":20,"sugar":12,"protein":1.1,"salt":0},"composition":[{"id":"bn1","name":"Banana","percent":100}]},
-    {"id":"p_waldbeeren","name":"Waldbeeren tiefgefroren","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":222,"kcal":53,"fat":0.7,"sat":0.2,"carb":9.1,"sugar":6.6,"protein":1.3,"salt":0},"composition":[{"id":"wb1","name":"Waldbeeren","percent":100}]},
-    {"id":"p_heidelbeeren","name":"Heidelbeeren tiefgefroren","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":240,"kcal":57,"fat":0.3,"sat":0,"carb":14.5,"sugar":10,"protein":0.7,"salt":0},"composition":[{"id":"hb1","name":"Heidelbeeren","percent":100}]},
-    {"id":"p_pfirsich","name":"Pfirsich","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":175,"kcal":42,"fat":0.3,"sat":0,"carb":9.5,"sugar":8.5,"protein":0.9,"salt":0},"composition":[{"id":"pf1","name":"Pfirsich","percent":100}]},
-    {"id":"p_sauerkirschen","name":"Sauerkirschen","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":209,"kcal":50,"fat":0.3,"sat":0.1,"carb":12.2,"sugar":8.5,"protein":1,"salt":0},"composition":[{"id":"sk1","name":"Sauerkirschen","percent":100}]},
-    {"id":"p_mango","name":"Mango","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":250,"kcal":60,"fat":0.4,"sat":0.1,"carb":15,"sugar":14,"protein":0.8,"salt":0},"composition":[{"id":"mg1","name":"Mango","percent":100}]},
-    {"id":"p_ananas","name":"Ananas","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":210,"kcal":50,"fat":0.1,"sat":0,"carb":13,"sugar":10,"protein":0.5,"salt":0},"composition":[{"id":"an1","name":"Ananas","percent":100}]},
-    {"id":"p_zitrone","name":"Zitrone (Saft)","category":"Frucht","allergens":"","spuren":"","nutrition":{"kj":121,"kcal":29,"fat":0.3,"sat":0,"carb":9,"sugar":2.5,"protein":1.1,"salt":0},"composition":[{"id":"zi1","name":"Zitrone","percent":100}]},
-    {"id":"p_laktosefrei","name":"Laktosefreie Milch 1,5%","category":"Milchprodukt","allergens":"MILCH","spuren":"","nutrition":{"kj":197,"kcal":47,"fat":1.5,"sat":1,"carb":4.9,"sugar":4.9,"protein":3.4,"salt":0.13},"composition":[{"id":"lf1","name":"Laktosefreie Milch","percent":99.9},{"id":"lf2","name":"Laktase","percent":0.1}]},
-    {"id":"p_supergelmix","name":"SUPER GEL MIX","category":"Pulver","allergens":"SOJA","spuren":"Milch, Ei, Mandeln, Haselnüsse, Walnüsse, Pistazien","nutrition":{"kj":1350,"kcal":322,"fat":10,"sat":9.4,"carb":81,"sugar":50,"protein":0.7,"salt":0.56},"composition":[{"id":"sg1","name":"Dextrose","percent":35},{"id":"sg2","name":"Sorbit","percent":15},{"id":"sg3","name":"Glukosesirup","percent":14},{"id":"sg4","name":"Kokosfett","percent":10},{"id":"sg5","name":"Maltodextrin","percent":8},{"id":"sg6","name":"Sojamehl","percent":7},{"id":"sg7","name":"Sojaprotein","percent":5},{"id":"sg8","name":"Erbsenprotein","percent":3},{"id":"sg9","name":"Verdickungsmittel","percent":2},{"id":"sg10","name":"Emulgatoren","percent":1}]},
-    {"id":"p_lemongiu","name":"LEMON PIÙ","category":"Pulver","allergens":"","spuren":"MILCH, SOJA","nutrition":{"kj":1324,"kcal":313,"fat":3.5,"sat":3.4,"carb":69,"sugar":29,"protein":1.2,"salt":0.3},"composition":[{"id":"le1","name":"Dextrose","percent":35},{"id":"le2","name":"Glukosesirup getrocknet","percent":20},{"id":"le3","name":"Zitronensaftpulver","percent":10},{"id":"le4","name":"Reisstärke","percent":10},{"id":"le5","name":"pflanzliche Proteine","percent":5},{"id":"le6","name":"Aromen","percent":5},{"id":"le7","name":"Zitronensäure","percent":3},{"id":"le8","name":"E466","percent":3},{"id":"le9","name":"E410","percent":2},{"id":"le10","name":"E412","percent":2},{"id":"le11","name":"E401","percent":2},{"id":"le12","name":"E1422","percent":1},{"id":"le13","name":"E471","percent":1},{"id":"le14","name":"Salz","percent":0.5},{"id":"le15","name":"E477","percent":0.5}]},
-    {"id":"p_grundbasis","name":"Milchspeiseeis Grundbasis","category":"Milchprodukt","allergens":"MILCH","spuren":"Kann Spuren von EI, SOJA, MANDELN, HASELNÜSSEN, WALNÜSSEN und PISTAZIEN enthalten","nutrition":{"kj":1127,"kcal":267,"fat":4.9,"sat":3.4,"carb":50.8,"sugar":48.3,"protein":4.8,"salt":0.09},"composition":[{"id":"gb1","name":"MILCH","percent":67.09},{"id":"gb2","name":"Dextrose","percent":12.43},{"id":"gb3","name":"SAHNE","percent":4.85},{"id":"gb4","name":"MAGERMILCHPULVER","percent":4.41},{"id":"gb5","name":"Glukosepulver","percent":4.39},{"id":"gb6","name":"Zucker","percent":3.9},{"id":"gb7","name":"Glukosesirup","percent":1.46},{"id":"gb8","name":"Pflanzenfette (Palm, Kokos)","percent":0.59},{"id":"gb9","name":"MILCHEIWEISS","percent":0.29},{"id":"gb10","name":"LAKTOSE","percent":0.24},{"id":"gb11","name":"Verdickungsmittel","percent":0.12},{"id":"gb12","name":"Aromen","percent":0.1},{"id":"gb13","name":"Emulgatoren","percent":0.07},{"id":"gb14","name":"Salz","percent":0.05}]},
-    {"id":"p_pfefferminz","name":"Pfefferminz-Extrakt","category":"PASTE","allergens":"","spuren":"Kann Aktivität und Aufmerksamkeit bei Kindern beeinträchtigen","nutrition":{"kj":1298,"kcal":310,"fat":0.2,"sat":0.1,"carb":76.3,"sugar":49,"protein":0.2,"salt":0.02},"composition":[{"id":"pm1","name":"Glukosesirup","percent":96.34},{"id":"pm2","name":"Pfefferminz-Extrakte","percent":3},{"id":"pm3","name":"Aromen","percent":0.3},{"id":"pm4","name":"Carrageenan","percent":0.15},{"id":"pm5","name":"Carboxymethylcellulose","percent":0.15},{"id":"pm6","name":"E133","percent":0.06}]},
-    {"id":"p_amarenasosse","name":"Amarena SOßE","category":"Zutat","allergens":"SULFITE","spuren":"","nutrition":{"kj":1652,"kcal":389,"fat":0,"sat":0,"carb":96.9,"sugar":67.8,"protein":0.3,"salt":0},"composition":[{"id":"as1","name":"Glukosesirup","percent":40},{"id":"as2","name":"Zucker","percent":30},{"id":"as3","name":"Amarenakirschsaft","percent":23},{"id":"as4","name":"Wasser","percent":5},{"id":"as5","name":"E330, E334","percent":0.8},{"id":"as6","name":"E163","percent":0.4},{"id":"as7","name":"Aromen","percent":0.4},{"id":"as8","name":"E224","percent":0.4}]},
-    {"id":"p_weissschokoladeraspel","name":"Weiß Schokolade Raspel","category":"Zutat","allergens":"MILCH","spuren":"Kann Spuren von SOJA enthalten","nutrition":{"kj":541,"kcal":2263,"fat":30.5,"sat":17.4,"carb":18.4,"sugar":62.2,"protein":4.5,"salt":0.16},"composition":[{"id":"wr1","name":"Zucker","percent":55},{"id":"wr2","name":"Kakaobutter","percent":30},{"id":"wr3","name":"VOLLMILCHPULVER","percent":14},{"id":"wr4","name":"Lecithin","percent":1}]},
-    {"id":"p_dunkelschokoladeraspel","name":"Dunkel Schokolade Raspel","category":"Zutat","allergens":"","spuren":"","nutrition":{"kj":2045,"kcal":490,"fat":25.5,"sat":15.1,"carb":53,"sugar":48.3,"protein":7.3,"salt":0.01},"composition":[{"id":"dr1","name":"Zucker","percent":50},{"id":"dr2","name":"Kakaomasse","percent":30},{"id":"dr3","name":"fettarmes Kakaopulver","percent":19},{"id":"dr4","name":"Lecithin","percent":1}]},
-    {"id":"p_keksstuckchen","name":"Keksstückchen mit Zartbitterschokolade","category":"Milchprodukt","allergens":"GLUTEN (WEIZEN), SOJA","spuren":"Kann Spuren von MILCH, EI und SCHALENFRÜCHTEN enthalten","nutrition":{"kj":2077,"kcal":497,"fat":26,"sat":14,"carb":57,"sugar":32,"protein":6.3,"salt":0.75},"composition":[{"id":"ke1","name":"WEIZENMEHL","percent":35},{"id":"ke2","name":"Zucker","percent":20},{"id":"ke3","name":"Kakaomasse","percent":10},{"id":"ke4","name":"Glukosesirup","percent":8},{"id":"ke5","name":"Palmfett","percent":8},{"id":"ke6","name":"Kakaobutter","percent":6},{"id":"ke7","name":"WEIZENSTÄRKE","percent":5},{"id":"ke8","name":"Karamellsirup","percent":3},{"id":"ke9","name":"E450, E500","percent":2},{"id":"ke10","name":"E322","percent":1},{"id":"ke11","name":"Salz","percent":1},{"id":"ke12","name":"natürliches Aroma","percent":1}]},
-    {"id":"p_base_soave","name":"Pulvermischung zur Herstellung von Speiseeis SOAVE","category":"Milchprodukt","allergens":"MILCH","spuren":"Kann Spuren von EI, SOJA, MANDELN, HASELNÜSSEN, WALNÜSSEN und PISTAZIEN enthalten","nutrition":{"kj":1650,"kcal":390,"fat":12,"sat":8,"carb":58,"sugar":35,"protein":18,"salt":1},"composition":[{"id":"bs1","name":"Glukosesirup (getrocknet)","percent":30},{"id":"bs2","name":"MAGERMILCHPULVER","percent":25},{"id":"bs3","name":"Dextrose","percent":15},{"id":"bs4","name":"Pflanzenfette (Palm, Kokos)","percent":12},{"id":"bs5","name":"MILCHEIWEISS","percent":6},{"id":"bs6","name":"LAKTOSE","percent":5},{"id":"bs7","name":"Verdickungsmittel (E410, E466, E407, E412)","percent":2.5},{"id":"bs8","name":"Aromen","percent":2},{"id":"bs9","name":"Emulgatoren (E471, E477, E472b, E473)","percent":1.5},{"id":"bs10","name":"Salz","percent":1}]}
-  ];
-
-  // ========== RECEITA TOFFIFFE (6kg) ==========
-  const defaultRecipes = [
-    {"id":"r_toffiffe","name":"TOFFIFFE","legalName":"TOFFIFFE Eiscreme","packaging":"6000","storage":"Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.","manufacturer":"Eiscafé Sanremo, Fürst Richard Str. 1, 57319 Bad Berleburg","mhd":"Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel.","items":[
-      {"id":"ri1","productId":"p_milch","qty":4000},
-      {"id":"ri2","productId":"p_dextrose","qty":720},
-      {"id":"ri3","productId":"p_sahne","qty":300},
-      {"id":"ri4","productId":"p_glukosepulver","qty":300},
-      {"id":"ri5","productId":"p_zucker","qty":240},
-      {"id":"ri6","productId":"p_magermilch","qty":196},
-      {"id":"ri7","productId":"p_base_soave","qty":300}
-    ]}
-  ];
-
-  // ========== FUNÇÕES AUXILIARES ==========
-  function sortProductComposition(p) { if (p.composition) p.composition.sort((a,b)=>b.percent-a.percent); return p; }
-  function uid() { return Date.now() + '-' + Math.random().toString(36).substr(2,8); }
-  function getProductPercentSum(p) { return (p.composition||[]).reduce((s,c)=>s+c.percent,0); }
-  function parseDecimal(v) { if (!v && v!==0) return 0; let s=String(v).trim().replace(',','.'); let n=parseFloat(s); return isNaN(n)?0:parseFloat(n.toFixed(2)); }
-
-  // ========== CÁLCULO PRECISO DOS NÄHRWERTE (100% CORRETO) ==========
-  function computeRecipeNutrition(recipe) {
-    if (!recipe.items || recipe.items.length === 0) return null;
-    
-    let totalWeight = 0;
-    for (let it of recipe.items) totalWeight += it.qty;
-    if (totalWeight === 0) return null;
-    
-    // Zutaten auflösen und Gewichte sammeln
-    const ingredientMap = new Map();
-    
-    for (let item of recipe.items) {
-      const product = state.products.find(p => p.id === item.productId);
-      if (!product) continue;
-      
-      const sumPercent = getProductPercentSum(product);
-      const isComplete = Math.abs(sumPercent - 100) < 0.1;
-      
-      if (!isComplete || product.composition.length === 0 || (product.composition.length === 1 && product.composition[0].name === product.name)) {
-        // Einfaches Produkt
-        const existing = ingredientMap.get(product.name) || { weight: 0, nutrition: product.nutrition };
-        existing.weight += item.qty;
-        ingredientMap.set(product.name, existing);
-      } else {
-        // Komplexes Produkt - zerlegen
-        for (let comp of product.composition) {
-          const compWeight = item.qty * (comp.percent / 100);
-          let compNutrition = null;
-          const foundProduct = state.products.find(p => p.name === comp.name);
-          if (foundProduct) compNutrition = foundProduct.nutrition;
-          const existing = ingredientMap.get(comp.name) || { weight: 0, nutrition: compNutrition || { kj: 0, kcal: 0, fat: 0, sat: 0, carb: 0, sugar: 0, protein: 0, salt: 0 } };
-          existing.weight += compWeight;
-          ingredientMap.set(comp.name, existing);
-        }
-      }
+  <script>
+    const phone = '4917672809926';
+    function sendCakeOrder(event){
+      event.preventDefault();
+      const size = document.getElementById('cakeSize').value;
+      const delivery = document.getElementById('cakeDelivery').value;
+      const flavor1 = document.getElementById('cakeFlavor1').value;
+      const flavor2 = document.getElementById('cakeFlavor2').value;
+      const date = document.getElementById('cakeDate').value || 'nicht ausgewählt';
+      const time = document.getElementById('cakeTime').value || 'nicht ausgewählt';
+      const text = document.getElementById('cakeText').value || 'kein Text';
+      const notes = document.getElementById('cakeNotes').value || 'keine Extras';
+      const msg = `Hallo Sanremo, ich möchte gerne eine Eistorte bestellen:%0A%0AGröße: ${size}%0ASorten: ${flavor1} / ${flavor2}%0AText: ${text}%0AExtras: ${notes}%0ADatum: ${date}%0AUhrzeit: ${time}%0AArt: ${delivery}%0A%0ABitte bestätigen Sie mir den Preis und die Verfügbarkeit.`;
+      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
     }
-    
-    // Nährwerte pro 100g berechnen
-    const per100g = { kj: 0, kcal: 0, fat: 0, sat: 0, carb: 0, sugar: 0, protein: 0, salt: 0 };
-    
-    for (let [, data] of ingredientMap) {
-      const factor = data.weight / totalWeight;
-      const nut = data.nutrition;
-      per100g.kj += nut.kj * factor;
-      per100g.kcal += nut.kcal * factor;
-      per100g.fat += nut.fat * factor;
-      per100g.sat += nut.sat * factor;
-      per100g.carb += nut.carb * factor;
-      per100g.sugar += nut.sugar * factor;
-      per100g.protein += nut.protein * factor;
-      per100g.salt += nut.salt * factor;
-    }
-    
-    // Arredondamento LMIV
-    per100g.kj = Math.round(per100g.kj);
-    per100g.kcal = Math.round(per100g.kcal);
-    per100g.fat = Math.round(per100g.fat * 10) / 10;
-    per100g.sat = Math.round(per100g.sat * 10) / 10;
-    per100g.carb = Math.round(per100g.carb * 10) / 10;
-    per100g.sugar = Math.round(per100g.sugar * 10) / 10;
-    per100g.protein = Math.round(per100g.protein * 10) / 10;
-    per100g.salt = Math.round(per100g.salt * 10) / 10;
-    
-    // Zutaten sortiert nach Gewicht
-    const sortedIngredients = Array.from(ingredientMap.entries()).sort((a, b) => b[1].weight - a[1].weight).map(e => e[0]);
-    
-    return { per100g, ingredients: sortedIngredients, totalWeight };
-  }
-  
-  function getAllergensForRecipe(recipe) {
-    const allergens = new Set();
-    for (let item of recipe.items) {
-      const product = state.products.find(p => p.id === item.productId);
-      if (product && product.allergens) {
-        product.allergens.split(',').forEach(a => { let x = a.trim().toUpperCase(); if (x) allergens.add(x); });
-      }
-    }
-    return Array.from(allergens);
-  }
-  
-  function getAllSpurenForRecipe(recipe) {
-    const spuren = new Set();
-    for (let item of recipe.items) {
-      const product = state.products.find(p => p.id === item.productId);
-      if (product && product.spuren && product.spuren.trim()) {
-        spuren.add(product.spuren);
-      }
-    }
-    return Array.from(spuren);
-  }
-
-  // ========== LOAD & SAVE ==========
-  function loadState() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        state.products = data.products || [];
-        state.recipes = data.recipes || [];
-        state.recipeDraft = data.recipeDraft || [];
-      } catch(e) {}
-    }
-    if (!state.products.length) state.products = JSON.parse(JSON.stringify(existingProducts));
-    if (!state.recipes.length) state.recipes = JSON.parse(JSON.stringify(defaultRecipes));
-    state.products.forEach(p => { if (p.spuren === undefined) p.spuren = ''; sortProductComposition(p); });
-    state.recipeDraft = state.recipeDraft || [];
-    saveState();
-  }
-  function saveState() { state.products.forEach(p=>sortProductComposition(p)); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderAll(); }
-
-  // ========== UI RENDER ==========
-  function renderProductsList() {
-    const cont = document.getElementById('productsList');
-    if (!state.products.length) { cont.innerHTML='<div class="product-item">Keine Produkte</div>'; return; }
-    cont.innerHTML = state.products.map(p=>{
-      const sum=getProductPercentSum(p);
-      const status=Math.abs(sum-100)<0.1?'✅ 100%':`⚠️ ${sum.toFixed(1)}%`;
-      return `<div class="product-item"><strong>${p.name}</strong> <span class="badge">${p.category}</span> <span class="pill ${Math.abs(sum-100)<0.1?'success':'warning'}">${status}</span><div style="font-size:0.75rem;">Allergene: ${p.allergens||'—'} | Spuren: ${p.spuren||'—'}</div><div><button onclick="editProduct('${p.id}')">✏️ Bearbeiten</button> <button class="danger" onclick="deleteProduct('${p.id}')">Löschen</button></div></div>`;
-    }).join('');
-  }
-  
-  window.editProduct = (id) => {
-    const p = state.products.find(x=>x.id===id);
-    if(!p) return;
-    document.getElementById('editProductId').value=p.id;
-    document.getElementById('prodName').value=p.name;
-    document.getElementById('prodCategory').value=p.category;
-    document.getElementById('prodAllergens').value=p.allergens||'';
-    document.getElementById('prodSpuren').value=p.spuren||'';
-    document.getElementById('prodKj').value=p.nutrition.kj;
-    document.getElementById('prodKcal').value=p.nutrition.kcal;
-    document.getElementById('prodFat').value=p.nutrition.fat;
-    document.getElementById('prodSat').value=p.nutrition.sat;
-    document.getElementById('prodCarb').value=p.nutrition.carb;
-    document.getElementById('prodSugar').value=p.nutrition.sugar;
-    document.getElementById('prodProtein').value=p.nutrition.protein;
-    document.getElementById('prodSalt').value=p.nutrition.salt;
-    renderCurrentComposition(p);
-  };
-  
-  function renderCurrentComposition(p) {
-    const div = document.getElementById('currentCompositionList');
-    if(!p){ div.innerHTML=''; document.getElementById('productPercentFill').style.width='0%'; return; }
-    const sum=getProductPercentSum(p);
-    document.getElementById('productPercentFill').style.width=Math.min(100,sum)+'%';
-    const sorted=[...p.composition].sort((a,b)=>b.percent-a.percent);
-    div.innerHTML=sorted.map(c=>`<div style="display:flex;justify-content:space-between;"><span>${c.name}</span><span>${c.percent.toFixed(2)}% <button class="danger" style="padding:0 6px;" onclick="removeComp('${c.id}')">X</button></span></div>`).join('');
-  }
-  
-  window.removeComp = (cid) => { const pid=document.getElementById('editProductId').value; const p=state.products.find(x=>x.id===pid); if(p){ p.composition=p.composition.filter(c=>c.id!==cid); renderCurrentComposition(p); saveState(); } };
-  
-  window.addIngredientToCurrent = () => {
-    const pid=document.getElementById('editProductId').value;
-    if(!pid){ alert("Bitte Produkt auswählen oder neu anlegen"); return; }
-    let p=state.products.find(x=>x.id===pid);
-    if(!p){ alert("Produkt nicht gefunden"); return; }
-    const name=document.getElementById('compName').value.trim();
-    const perc=parseDecimal(document.getElementById('compPercent').value);
-    if(!name||!perc){ alert("Zutat und Prozent eingeben"); return; }
-    p.composition.push({id:uid(),name,percent:perc});
-    sortProductComposition(p);
-    document.getElementById('compName').value='';
-    document.getElementById('compPercent').value='';
-    renderCurrentComposition(p);
-    saveState();
-  };
-  
-  window.sortCurrentComposition = () => { const pid=document.getElementById('editProductId').value; const p=state.products.find(x=>x.id===pid); if(p){ sortProductComposition(p); renderCurrentComposition(p); saveState(); alert("Sortiert"); } };
-  
-  window.normalizeCurrentProduct = () => { const pid=document.getElementById('editProductId').value; const p=state.products.find(x=>x.id===pid); if(p&&p.composition.length){ let sum=p.composition.reduce((a,b)=>a+b.percent,0); if(sum){ p.composition=p.composition.map(c=>({...c,percent:parseFloat((c.percent/sum*100).toFixed(2))})); sortProductComposition(p); renderCurrentComposition(p); saveState(); } } };
-  
-  window.saveProduct = () => {
-    let id=document.getElementById('editProductId').value;
-    const prod={
-      id:id||uid(),
-      name:document.getElementById('prodName').value.trim(),
-      category:document.getElementById('prodCategory').value,
-      allergens:document.getElementById('prodAllergens').value,
-      spuren:document.getElementById('prodSpuren').value,
-      nutrition:{
-        kj:parseDecimal(document.getElementById('prodKj').value),
-        kcal:parseDecimal(document.getElementById('prodKcal').value),
-        fat:parseDecimal(document.getElementById('prodFat').value),
-        sat:parseDecimal(document.getElementById('prodSat').value),
-        carb:parseDecimal(document.getElementById('prodCarb').value),
-        sugar:parseDecimal(document.getElementById('prodSugar').value),
-        protein:parseDecimal(document.getElementById('prodProtein').value),
-        salt:parseDecimal(document.getElementById('prodSalt').value)
-      },
-      composition:[]
-    };
-    if(!prod.name){ alert("Name erforderlich"); return; }
-    const idx=state.products.findIndex(p=>p.id===prod.id);
-    if(idx>=0){ prod.composition=state.products[idx].composition||[]; state.products[idx]=prod; }
-    else state.products.push(prod);
-    sortProductComposition(prod);
-    clearProductForm();
-    saveState();
-  };
-  
-  window.deleteProduct = (id) => { if(confirm("Löschen?")){ state.products=state.products.filter(p=>p.id!==id); saveState(); } };
-  
-  function clearProductForm() {
-    ['editProductId','prodName','prodAllergens','prodSpuren','prodKj','prodKcal','prodFat','prodSat','prodCarb','prodSugar','prodProtein','prodSalt'].forEach(i=>document.getElementById(i).value='');
-    document.getElementById('prodCategory').value='Milchprodukt';
-    document.getElementById('currentCompositionList').innerHTML='';
-    document.getElementById('productPercentFill').style.width='0%';
-  }
-
-  // ========== REZEPTE UI ==========
-  window.addRecipeItem = () => {
-    const pid=document.getElementById('recipeProductSelect').value;
-    const qty=parseFloat(document.getElementById('recipeItemQty').value);
-    if(!pid||qty<=0){ alert("Produkt und Menge wählen"); return; }
-    state.recipeDraft.push({id:uid(),productId:pid,qty});
-    document.getElementById('recipeItemQty').value='';
-    renderRecipeDraft();
-    saveState();
-  };
-  
-  window.removeRecipeDraftItem = (id) => { state.recipeDraft=state.recipeDraft.filter(i=>i.id!==id); renderRecipeDraft(); saveState(); };
-  
-  window.clearRecipeDraft = () => { state.recipeDraft=[]; renderRecipeDraft(); saveState(); };
-  
-  function renderRecipeDraft() {
-    const total=state.recipeDraft.reduce((s,i)=>s+i.qty,0);
-    document.getElementById('recipeTotalWeight').innerHTML=`<strong>Gesamt: ${total.toFixed(1)} g</strong>`;
-    const tbody=document.getElementById('recipeItemsTable');
-    tbody.innerHTML=`<thead><tr><th>Produkt</th><th>Menge (g)</th><th>Anteil</th><th></th></tr></thead><tbody>${state.recipeDraft.map(it=>{
-      const p=state.products.find(x=>x.id===it.productId);
-      const percent=total?(it.qty/total*100).toFixed(1):0;
-      return `<tr><td style="width:40%">${p?.name||'?'}</td><td style="text-align:right">${it.qty.toFixed(1)} g</td><td style="text-align:right">${percent}%</td><td style="text-align:right"><button class="danger" onclick="removeRecipeDraftItem('${it.id}')">X</button></td>`;
-    }).join('')}</tbody>`;
-  }
-  
-  window.saveRecipe = () => {
-    let pack=document.getElementById('recipePackaging').value;
-    if(pack==='custom') pack=document.getElementById('customPackaging').value;
-    if(!pack){ alert("Verpackungsgröße eingeben"); return; }
-    const rid=document.getElementById('editRecipeId').value;
-    const recipe={
-      id:rid||uid(),
-      name:document.getElementById('recipeName').value.trim(),
-      legalName:document.getElementById('recipeLegal').value.trim(),
-      packaging:pack,
-      storage:document.getElementById('recipeStorage').value,
-      manufacturer:document.getElementById('recipeManufacturer').value,
-      mhd:document.getElementById('recipeMhd').value,
-      items:[...state.recipeDraft]
-    };
-    if(!recipe.name||!recipe.legalName){ alert("Name und Verkehrsbezeichnung erforderlich"); return; }
-    if(!recipe.items.length){ alert("Mindestens eine Zutat"); return; }
-    const idx=state.recipes.findIndex(r=>r.id===recipe.id);
-    if(idx>=0) state.recipes[idx]=recipe;
-    else state.recipes.push(recipe);
-    state.recipeDraft=[];
-    document.getElementById('editRecipeId').value='';
-    document.getElementById('recipeName').value='';
-    document.getElementById('recipeLegal').value='Eiscreme';
-    renderSavedRecipes();
-    saveState();
-  };
-  
-  function renderSavedRecipes() {
-    const cont=document.getElementById('savedRecipesList');
-    cont.innerHTML=state.recipes.map(r=>`<div class="recipe-item"><strong>${r.name}</strong> (${r.packaging}g) <button onclick="editRecipe('${r.id}')">✏️ Bearbeiten</button> <button class="danger" onclick="deleteRecipe('${r.id}')">Löschen</button></div>`).join('');
-    const prodSel=document.getElementById('recipeProductSelect');
-    prodSel.innerHTML='<option value="">Produkt wählen</option>'+state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-    document.getElementById('labelRecipeSelect').innerHTML='<option value="">Rezept wählen</option>'+state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
-    document.getElementById('validationSelect').innerHTML='<option value="">Rezept wählen</option>'+state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
-    document.getElementById('techProductSelect').innerHTML='<option value="">Produkt wählen</option>'+state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-    document.getElementById('techRecipeSelect').innerHTML='<option value="">Rezept wählen</option>'+state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
-  }
-  
-  window.editRecipe = (id) => {
-    const r=state.recipes.find(x=>x.id===id);
-    if(r){
-      document.getElementById('editRecipeId').value=r.id;
-      document.getElementById('recipeName').value=r.name;
-      document.getElementById('recipeLegal').value=r.legalName;
-      const sel=document.getElementById('recipePackaging');
-      const custDiv=document.getElementById('customPackagingContainer');
-      const custInp=document.getElementById('customPackaging');
-      const optExists=Array.from(sel.options).some(o=>o.value==r.packaging);
-      if(optExists){ sel.value=r.packaging; custDiv.style.display='none'; }
-      else{ sel.value='custom'; custDiv.style.display='block'; custInp.value=r.packaging; }
-      document.getElementById('recipeStorage').value=r.storage;
-      document.getElementById('recipeManufacturer').value=r.manufacturer;
-      document.getElementById('recipeMhd').value=r.mhd;
-      state.recipeDraft=JSON.parse(JSON.stringify(r.items));
-      renderRecipeDraft();
-      saveState();
-    }
-  };
-  
-  window.deleteRecipe = (id) => { if(confirm("Rezept löschen?")){ state.recipes=state.recipes.filter(r=>r.id!==id); renderSavedRecipes(); saveState(); } };
-
-  // ========== TECHNISCHE DATENBLÄTTER ==========
-  window.generateProductTechSheet = () => {
-    const pid=document.getElementById('techProductSelect').value;
-    const p=state.products.find(x=>x.id===pid);
-    const preview=document.getElementById('techSheetPreview');
-    if(!p){ preview.innerHTML='<p style="color:red;">❌ Bitte wählen Sie ein Produkt.</p>'; return; }
-    const sorted=[...p.composition].sort((a,b)=>b.percent-a.percent);
-    preview.innerHTML=`<div><h2>📄 ${p.name}</h2><p><strong>Kategorie:</strong> ${p.category}</p><h3>Zusammensetzung</h3><ul>${sorted.map(c=>`<li>${c.name}: ${c.percent.toFixed(2)}%</li>`).join('')}</ul><h3>Allergene</h3><p>${p.allergens||'Keine'}</p><h3>Spuren</h3><p>${p.spuren||'Keine'}</p><h3>Nährwerte pro 100g</h3><table border="1" style="border-collapse:collapse; width:100%"><tr><th>Energie</th><td>${p.nutrition.kj} kJ / ${p.nutrition.kcal} kcal</td></tr><tr><th>Fett</th><td>${p.nutrition.fat} g (gesättigt: ${p.nutrition.sat} g)</td></tr><tr><th>Kohlenhydrate</th><td>${p.nutrition.carb} g (Zucker: ${p.nutrition.sugar} g)</td></tr><tr><th>Eiweiß</th><td>${p.nutrition.protein} g</td></tr><tr><th>Salz</th><td>${p.nutrition.salt} g</td></tr></table><hr><p style="font-size:0.7rem;">Generiert von Sanremo LMIV System</p></div>`;
-  };
-  
-  window.generateRecipeTechSheet = () => {
-    const rid=document.getElementById('techRecipeSelect').value;
-    const r=state.recipes.find(x=>x.id===rid);
-    const preview=document.getElementById('techSheetPreview');
-    if(!r){ preview.innerHTML='<p style="color:red;">❌ Bitte wählen Sie ein Rezept.</p>'; return; }
-    const nutritionData = computeRecipeNutrition(r);
-    const total = r.items.reduce((s,i)=>s+i.qty,0);
-    const allergens = getAllergensForRecipe(r);
-    const spuren = getAllSpurenForRecipe(r);
-    preview.innerHTML=`<div><h2>🍨 ${r.name}</h2><p><strong>Verkehrsbezeichnung:</strong> ${r.legalName}</p><p><strong>Füllmenge:</strong> ${r.packaging} g</p><h3>Zutaten (sortiert nach Gewicht)</h3><p>${nutritionData?.ingredients?.join(', ')||'Keine'}</p><h3>Allergene</h3><p>${allergens.length?allergens.join(', '):'Keine'}</p><h3>Spuren</h3><p>${spuren.length?spuren.join(', '):'Keine'}</p><h3>Nährwerte pro 100g</h3><table border="1"><tr><th>Energie</th><td>${nutritionData?.per100g.kj||0} kJ / ${nutritionData?.per100g.kcal||0} kcal</td></tr><tr><th>Fett</th><td>${nutritionData?.per100g.fat||0} g (gesättigt: ${nutritionData?.per100g.sat||0} g)</td></tr><tr><th>Kohlenhydrate</th><td>${nutritionData?.per100g.carb||0} g (Zucker: ${nutritionData?.per100g.sugar||0} g)</td></tr><tr><th>Eiweiß</th><td>${nutritionData?.per100g.protein||0} g</td></tr><tr><th>Salz</th><td>${nutritionData?.per100g.salt||0} g</td></tr></table><h3>Rezeptur (${total.toFixed(1)} g)</h3><ul>${r.items.map(it=>{const p=state.products.find(x=>x.id===it.productId); return `<li>${p?.name||'?'}: ${it.qty} g (${(it.qty/total*100).toFixed(1)}%)</li>`;}).join('')}</ul><p><strong>Hersteller:</strong> ${r.manufacturer}</p><hr><p style="font-size:0.7rem;">Generiert von Sanremo LMIV System</p></div>`;
-  };
-  
-  window.printTechSheet = () => { const html=document.getElementById('techSheetPreview').innerHTML; if(html && !html.includes('Bitte wählen')){ const w=window.open('','_blank'); w.document.write(`<html><head><title>Datenblatt</title><style>table{border-collapse:collapse;width:100%;}th,td{border:1px solid #ccc;padding:0.5rem;}</style></head><body>${html}</body></html>`); w.document.close(); w.print(); } else{ alert("Bitte zuerst generieren."); } };
-
-  // ========== ETIKETT GENERATOR ==========
-  window.generateLabel = () => {
-    const rid=document.getElementById('labelRecipeSelect').value;
-    const recipe = state.recipes.find(r => r.id === rid);
-    const preview = document.getElementById('labelPreviewText');
-    if (!recipe) { preview.innerHTML = '❌ Bitte wählen Sie ein Rezept.'; return; }
-    
-    const nutritionData = computeRecipeNutrition(recipe);
-    if (!nutritionData) { preview.innerHTML = '❌ Fehler bei der Berechnung.'; return; }
-    
-    const ingredients = nutritionData.ingredients;
-    const allergens = getAllergensForRecipe(recipe);
-    const spuren = getAllSpurenForRecipe(recipe);
-    
-    const allergenText = allergens.length ? `Allergene: ${allergens.join(', ')}. ` : '';
-    const spurenText = spuren.length ? `Kann Spuren enthalten von: ${spuren.join(', ')}. ` : '';
-    
-    const fmt = (v) => v.toFixed(1).replace('.', ',');
-    const fmtInt = (v) => Math.round(v);
-    
-    preview.innerHTML = `${recipe.legalName}\n\nZutaten: ${ingredients.join(', ')}. ${allergenText}${spurenText}\n\nNährwerte pro 100g:\nEnergie ${fmtInt(nutritionData.per100g.kj)} kJ / ${fmtInt(nutritionData.per100g.kcal)} kcal\nFett ${fmt(nutritionData.per100g.fat)} g (davon gesättigte Fettsäuren ${fmt(nutritionData.per100g.sat)} g)\nKohlenhydrate ${fmt(nutritionData.per100g.carb)} g (davon Zucker ${fmt(nutritionData.per100g.sugar)} g)\nEiweiß ${fmt(nutritionData.per100g.protein)} g\nSalz ${fmt(nutritionData.per100g.salt)} g\n\nInhalt: ${recipe.packaging} g\n${recipe.storage}\n${recipe.mhd}\nHersteller: ${recipe.manufacturer}`;
-  };
-  
-  window.copyLabel = () => { const txt = document.getElementById('labelPreviewText').innerText; if (txt && !txt.includes('Bitte wählen')) { navigator.clipboard.writeText(txt); alert("Etikett kopiert!"); } };
-  window.downloadLabelTxt = () => { const txt = document.getElementById('labelPreviewText').innerText; if (txt && !txt.includes('Bitte wählen')) { const a = document.createElement('a'); const b = new Blob([txt], {type:'text/plain'}); a.href = URL.createObjectURL(b); a.download = 'etikett.txt'; a.click(); URL.revokeObjectURL(b); } };
-  
-  window.validateRecipe = () => {
-    const rid = document.getElementById('validationSelect').value;
-    const r = state.recipes.find(x=>x.id===rid);
-    const out = document.getElementById('validationResult');
-    if(!r){ out.innerHTML='<div class="pill error">❌ Bitte wählen Sie ein Rezept.</div>'; return; }
-    const issues = [];
-    if(!r.legalName) issues.push({level:'error',text:'❌ Verkehrsbezeichnung fehlt'});
-    let incomplete = [];
-    for(let it of r.items){
-      const p = state.products.find(x=>x.id===it.productId);
-      if(p && Math.abs(getProductPercentSum(p)-100)>0.1) incomplete.push(p.name);
-    }
-    if(incomplete.length) issues.push({level:'error',text:`❌ Produkte ohne 100%: ${incomplete.join(', ')}`});
-    if(!r.items.length) issues.push({level:'error',text:'❌ Keine Zutaten'});
-    if(issues.length===0) issues.push({level:'success',text:'✅ LMIV konform – Etikett kann erstellt werden'});
-    out.innerHTML = issues.map(i=>`<div class="pill ${i.level==='error'?'error':'success'}">${i.text}</div>`).join('');
-  };
-  
-  window.exportData = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify({products:state.products, recipes:state.recipes},null,2)],{type:'application/json'})); a.download = 'sanremo_backup.json'; a.click(); };
-  
-  window.importData = (e) => { const f = e.target.files[0]; if(!f) return; const r = new FileReader(); r.onload = ev => { try { const d = JSON.parse(ev.target.result); state.products = d.products || []; state.recipes = d.recipes || []; state.recipeDraft = []; state.products.forEach(p => { if (p.spuren === undefined) p.spuren = ''; }); saveState(); alert("✅ Import erfolgreich!"); } catch(e){ alert("❌ Fehler"); } }; r.readAsText(f); };
-  
-  window.resetAll = () => { if(confirm("⚠️ Alle Daten löschen?")){ localStorage.removeItem(STORAGE_KEY); loadState(); location.reload(); } };
-  
-  function renderStats() { document.getElementById('statsArea').innerHTML = `<div>📦 ${state.products.length} Produkte</div><div>🍨 ${state.recipes.length} Rezepte</div><div>✅ Nährwerte 100% korrekt</div><div>🔄 SANHE → SAHNE korrigiert</div><div>✅ MILCHEIWEISS korrigiert</div>`; document.getElementById('rawData').innerHTML = JSON.stringify({products: state.products.map(p=>p.name), recipes: state.recipes.map(r=>r.name)}, null, 2); }
-  
-  function renderAll() { renderProductsList(); renderSavedRecipes(); renderRecipeDraft(); renderStats(); }
-  
-  function switchScreen(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelector(`[data-screen="${id}"]`).classList.add('active'); }
-  
-  document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>switchScreen(btn.dataset.screen)));
-  document.getElementById('recipePackaging')?.addEventListener('change',function(){ document.getElementById('customPackagingContainer').style.display = this.value === 'custom' ? 'block' : 'none'; });
-  
-  loadState();
-</script>
+  </script>
 </body>
 </html>
