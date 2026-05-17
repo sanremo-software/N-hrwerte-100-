@@ -1,191 +1,692 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>San Remo – Eistorten & Gelato bestellen</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="San Remo Gelato – Eistorten, Familienbecher & Eisbecher. Handgemachte Köstlichkeiten aus Bad Berleburg. Bestellen Sie jetzt mit Warenkorb und WhatsApp.">
+  <title>San Remo Gelato | Eistorten & Eiscreme – Professionelle Bestellung</title>
+
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#fbf6ef;
-      --white:#fffdf9;
-      --dark:#32170d;
-      --brown:#4b2617;
-      --text:#39261d;
-      --muted:#756154;
-      --red:#9b1116;
-      --redDark:#780c10;
-      --cream:#fff1df;
-      --line:#ead8c8;
-      --gold:#c99952;
-      --green:#25d366;
-      --shadow:0 18px 45px rgba(50,23,13,.13);
-      --radius:22px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    html{scroll-behavior:smooth}
-    body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;overflow-x:hidden}
-    img{display:block;max-width:100%}
-    a{text-decoration:none;color:inherit}
-    button,input,select,textarea{font-family:inherit}
-    button{cursor:pointer}
 
-    .topbar{background:var(--dark);color:#fff;text-align:center;padding:9px 14px;font-size:14px;font-weight:800}
-    header{position:sticky;top:0;z-index:100;background:rgba(251,246,239,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
-    .nav{max-width:1320px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:22px}
-    .logo{font-family:Georgia,serif;font-style:italic;font-weight:700;color:var(--dark);font-size:48px;line-height:.8;white-space:nowrap}
-    .logo small{display:block;font-family:Arial,Helvetica,sans-serif;font-style:normal;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-top:10px;color:#684536}
-    .flag{display:flex;gap:5px;margin-top:8px;justify-content:center}.flag span{width:13px;height:9px;display:block}.it1{background:#159447}.it2{background:#fff;border:1px solid #ddd}.it3{background:#d92727}
-    .navlinks{display:flex;gap:24px;align-items:center;font-weight:900;font-size:15px}.navlinks a:hover{color:var(--red)}
-    .btn{border:0;border-radius:999px;background:var(--red);color:#fff;font-weight:900;padding:12px 18px;display:inline-flex;gap:8px;align-items:center;justify-content:center;transition:.15s;font-size:15px;box-shadow:0 8px 18px rgba(155,17,22,.16)}
-    .btn:hover{background:var(--redDark);transform:translateY(-1px)}
-    .btn.outline{background:#fff;color:var(--red);border:1px solid var(--red);box-shadow:none}.btn.dark{background:var(--dark)}.btn.green{background:var(--green)}.btn.gold{background:var(--gold);color:#2b140d}.btn.gray{background:#666}.btn.danger{background:#b91c1c}.btn.small{font-size:13px;padding:7px 11px}
+    :root {
+      --cream: #fff8ef;
+      --cream-dark: #f1dfca;
+      --white: #ffffff;
+      --brown: #32180d;
+      --brown-soft: #5b3825;
+      --red: #9b1116;
+      --red-dark: #7f0d12;
+      --gold: #c89b52;
+      --green: #25d366;
+      --line: #ead6bf;
+      --muted: #6f5849;
+      --shadow: 0 20px 30px -12px rgba(50, 24, 13, 0.12);
+      --radius: 28px;
+      --transition: all 0.25s ease;
+    }
 
-    .hero{background:linear-gradient(180deg,#fffaf5 0%,#fbf1e8 100%);border-bottom:1px solid var(--line)}
-    .heroGrid{max-width:1320px;margin:auto;padding:36px 22px 0;display:grid;grid-template-columns:.9fr 1.1fr;gap:36px;align-items:end;min-height:560px}
-    .heroText{padding-bottom:40px}.heroText h1{font-family:Georgia,serif;color:var(--dark);font-size:64px;line-height:.98;letter-spacing:-1px;margin-bottom:6px}.script{font-family:Georgia,serif;font-size:42px;font-style:italic;color:var(--red);margin-bottom:16px}.heroText p{font-size:19px;color:#493328;max-width:520px;margin-bottom:24px;font-weight:600}.heroBtns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px}
-    .heroImage{align-self:end}.heroImage img{width:100%;height:520px;object-fit:cover;object-position:center bottom;border-radius:30px 30px 0 0;filter:drop-shadow(0 22px 28px rgba(50,23,13,.18))}
-    .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:560px}.trustBox{text-align:center;font-weight:900;color:var(--dark)}.trustBox .icon{font-size:30px;margin-bottom:8px}.trustBox small{display:block;color:var(--muted);font-weight:700;margin-top:2px}
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--cream);
+      color: var(--brown);
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
 
-    section{max-width:1320px;margin:auto;padding:54px 22px}.sectionHead{text-align:center;margin-bottom:30px}.sectionHead h2{font-family:Georgia,serif;font-size:40px;color:var(--dark);margin-bottom:8px}.sectionHead p{color:var(--muted);font-size:17px}
-    .gallery{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}.galleryCard{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 8px 18px rgba(50,23,13,.08);transition:.15s}.galleryCard:hover{transform:translateY(-3px)}.galleryCard img{width:100%;height:150px;object-fit:cover;object-position:center}.galleryCard b{display:block;text-align:center;padding:10px;font-size:13px;color:var(--dark)}
-    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card,.product,.panel,.deliveryBox{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.card{display:flex;flex-direction:column}.cardImg{height:255px;background:#eee;overflow:hidden}.cardImg img{width:100%;height:100%;object-fit:cover;object-position:center}.cardBody{padding:20px;display:flex;flex-direction:column;flex:1}.card h3,.product h3{font-family:Georgia,serif;color:var(--dark);font-size:27px;margin-bottom:8px}.card p,.product p{color:var(--muted);margin-bottom:12px}.price{font-size:26px;font-weight:900;color:var(--red);margin:8px 0 14px}.card .btn,.product .btn{align-self:flex-start;margin-top:auto}.tag{display:inline-block;background:#fff0d2;border:1px solid #e6bf71;color:#5c3500;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:900;margin-bottom:8px}.product{padding:18px;display:flex;flex-direction:column;min-height:210px}
+    /* Tipografia melhorada */
+    h1, h2, h3, .logo {
+      font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
 
-    .builder{background:#fff;border:2px solid var(--red);border-radius:30px;padding:24px;box-shadow:var(--shadow)}.builderGrid{display:grid;grid-template-columns:.9fr 1.1fr;gap:24px;align-items:stretch}.builderPhoto{min-height:540px;border-radius:24px;overflow:hidden;border:1px solid var(--line)}.builderPhoto img{width:100%;height:100%;object-fit:cover;object-position:center}.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}.step{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:13px;font-weight:900}.step b{display:inline-flex;width:27px;height:27px;align-items:center;justify-content:center;border-radius:50%;background:var(--red);color:#fff;margin-right:7px}.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}label{display:block;font-size:12px;font-weight:900;color:#735846;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}input,select,textarea{width:100%;border:1px solid #d8c1a8;border-radius:13px;padding:12px;background:#fff;color:var(--dark);font-size:15px}textarea{min-height:88px;resize:vertical}.full{grid-column:1/-1}
+    .topbar {
+      background: var(--brown);
+      color: var(--white);
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
 
-    .splitCards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}.infoCard{display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}.infoCard img{width:100%;height:170px;object-fit:cover}.infoCard div{padding:18px}.infoCard h3{font-family:Georgia,serif;color:var(--dark);font-size:26px;margin-bottom:8px}.infoCard p{color:var(--muted);margin-bottom:12px}
-    .delivery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.deliveryBox{text-align:center;padding:24px;min-height:170px}.deliveryBox .icon{font-size:38px;margin-bottom:8px}.deliveryBox h3{color:var(--red);font-size:22px;margin-bottom:8px}.notice{background:#fff0d2;border:1px solid #e6bf71;border-radius:18px;padding:16px;font-weight:900;color:#5c3500;margin-top:18px;text-align:center}
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 248, 239, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
 
-    .adminBox{border:2px dashed #c89b52;padding:22px}.adminHeader{margin-bottom:16px}.adminLogin{display:grid;grid-template-columns:1fr auto;gap:10px;max-width:460px}.adminContent{display:none;margin-top:16px}.adminBox.open .adminContent{display:block}.adminBox.open .loginArea{display:none}.adminList{display:grid;gap:10px;margin-top:14px}.adminItem{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:12px}.adminActions{display:flex;gap:8px;flex-wrap:wrap}.faded{opacity:.45}.smallText{font-size:13px;color:var(--muted)}
+    .nav {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
 
-    .cartButton{position:fixed;right:18px;bottom:18px;z-index:90;border:0;background:var(--dark);color:#fff;border-radius:999px;padding:15px 20px;font-weight:900;box-shadow:0 12px 28px rgba(0,0,0,.25)}.cartPanel{position:fixed;right:18px;top:88px;z-index:120;width:420px;max-width:calc(100vw - 36px);max-height:calc(100vh - 110px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.24);padding:18px;display:none}.cartPanel.open{display:block}.cartPanel h3{font-family:Georgia,serif;color:var(--dark);font-size:28px;margin-bottom:10px}.cartItem{border-bottom:1px solid var(--line);padding:10px 0}.cartItem b{display:block}.cartItem span{font-size:14px;color:var(--muted)}.cartTotal{font-size:25px;font-weight:900;color:var(--red);text-align:right;margin:14px 0}.remove{border:0;background:#eee;color:#333;border-radius:8px;padding:5px 8px;margin-top:6px}
-    footer{background:var(--dark);color:#fff;text-align:center;padding:34px 18px;margin-top:40px}footer p{color:#ead6bf;margin-top:5px}.legal{font-size:12px;opacity:.85;margin-top:12px}
+    .logo {
+      font-size: 2.1rem;
+      line-height: 1;
+      font-style: italic;
+      color: var(--brown);
+    }
+    .logo small {
+      display: block;
+      font-family: inherit;
+      font-size: 0.7rem;
+      font-style: normal;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--brown-soft);
+      margin-top: 6px;
+    }
 
-    @media(max-width:1050px){.navlinks{display:none}.heroGrid{grid-template-columns:1fr;min-height:auto}.heroText{padding-bottom:0}.heroImage img{height:420px;border-radius:30px}.grid3,.builderGrid,.splitCards,.delivery{grid-template-columns:1fr}.grid4{grid-template-columns:repeat(2,1fr)}.gallery{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:600px){.logo{font-size:36px}.heroGrid{padding:28px 16px}.heroText h1{font-size:42px}.script{font-size:31px}.heroText p{font-size:16px}.trust{grid-template-columns:repeat(2,1fr)}.grid4,.formGrid,.steps{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.sectionHead h2{font-size:31px}.infoCard{grid-template-columns:1fr}.infoCard img{height:210px}.cartButton{left:14px;right:14px}.cartPanel{left:12px;right:12px;width:auto}.heroImage img{height:330px}}
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-weight: 700;
+    }
+    .nav-links a {
+      transition: var(--transition);
+    }
+    .nav-links a:hover {
+      color: var(--red);
+    }
+
+    /* Botões globais */
+    .btn {
+      border: none;
+      border-radius: 60px;
+      background: var(--red);
+      color: white;
+      font-weight: 700;
+      padding: 12px 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+      cursor: pointer;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .btn:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(155, 17, 22, 0.2);
+    }
+    .btn.green { background: var(--green); }
+    .btn.dark { background: var(--brown); }
+    .btn.light { background: white; color: var(--red); border: 1px solid var(--red); box-shadow: none; }
+    .btn.gray { background: #6c5b4e; }
+    .btn.gold { background: var(--gold); color: var(--brown); }
+    .btn.small { padding: 8px 14px; font-size: 0.8rem; }
+
+    /* Hero com imagem premium */
+    .hero {
+      width: 100%;
+      min-height: 640px;
+      background: linear-gradient(105deg, rgba(255,248,239,0.96) 0%, rgba(255,248,239,0.85) 45%, rgba(255,248,239,0.4) 100%), url('https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=1600&q=80');
+      background-size: cover;
+      background-position: center 30%;
+      display: flex;
+      align-items: center;
+    }
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 80px 28px;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      max-width: 750px;
+      margin-bottom: 16px;
+    }
+    .hero .script {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 580px;
+      margin-bottom: 28px;
+      font-weight: 500;
+      color: #3a2419;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .trust-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 680px;
+    }
+    .trust-box {
+      background: rgba(255,255,240,0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 24px;
+      padding: 14px;
+      text-align: center;
+      font-weight: 700;
+      border: 1px solid var(--line);
+    }
+    .trust-box span {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    /* seções e grids */
+    section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+    .section-head {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-head h2 {
+      font-size: 2.6rem;
+      margin-bottom: 12px;
+    }
+    .grid-3, .grid-4 {
+      display: grid;
+      gap: 28px;
+    }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    /* Cards */
+    .card, .product-card, .delivery-box, .about-box, .admin-box {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      overflow: hidden;
+    }
+    .card:hover, .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 35px -12px rgba(0,0,0,0.15);
+    }
+    .image-box {
+      width: 100%;
+      height: 240px;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.4s ease;
+    }
+    .card:hover .image-box { transform: scale(1.02); }
+    .card-body {
+      padding: 22px;
+    }
+    .price {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--red);
+      margin: 12px 0 16px;
+    }
+    .tag {
+      background: #faeecb;
+      color: #a45d2e;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    /* Konfigurator */
+    .builder {
+      background: var(--white);
+      border-radius: 40px;
+      padding: 32px;
+      border: 2px solid var(--red);
+    }
+    .builder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 32px;
+    }
+    .builder-photo {
+      background: url('https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=800&q=80') center/cover;
+      border-radius: 28px;
+      min-height: 480px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .step {
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 12px;
+      font-weight: 700;
+    }
+    .step b {
+      background: var(--red);
+      color: white;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30px;
+      margin-right: 8px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7a5a48;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 20px;
+      border: 1.5px solid #e2cfbb;
+      background: white;
+      transition: 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(155,17,22,0.1);
+    }
+
+    /* Über uns & Lieferung */
+    .about-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      padding: 0;
+    }
+    .about-photo {
+      background: url('https://images.unsplash.com/photo-1506354666786-959d6d497f1a?w=800&q=80') center/cover;
+      min-height: 380px;
+    }
+    .about-box > div:last-child {
+      padding: 32px 32px 32px 0;
+    }
+    .delivery-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 24px;
+    }
+    .delivery-box {
+      text-align: center;
+      padding: 32px 16px;
+    }
+    .delivery-box .icon { font-size: 3rem; }
+    .notice {
+      background: #fff2e0;
+      border-left: 6px solid var(--gold);
+      border-radius: 20px;
+      padding: 18px;
+      font-weight: 600;
+      margin-top: 24px;
+    }
+
+    /* Admin */
+    .admin-box {
+      border: 2px dashed var(--gold);
+      padding: 28px;
+    }
+    .admin-login {
+      display: flex;
+      gap: 12px;
+      max-width: 400px;
+    }
+    .admin-content { display: none; margin-top: 24px; }
+    .admin-box.open .admin-content { display: block; }
+    .admin-box.open .login-area { display: none; }
+    .admin-item {
+      background: #fef9f0;
+      border-radius: 24px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+    .cart-button {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 200;
+      background: var(--brown);
+      border-radius: 60px;
+      padding: 14px 24px;
+      font-weight: 800;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    .cart-panel {
+      position: fixed;
+      right: 20px;
+      top: 100px;
+      width: 400px;
+      max-width: calc(100vw - 40px);
+      max-height: 85vh;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.25);
+      padding: 24px;
+      overflow-y: auto;
+      z-index: 300;
+      display: none;
+      border: 1px solid var(--line);
+    }
+    .cart-panel.open { display: block; }
+    .cart-total {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--red);
+      text-align: right;
+      margin: 16px 0;
+    }
+    footer {
+      background: var(--brown);
+      color: #f3e6da;
+      text-align: center;
+      padding: 48px 24px;
+    }
+
+    @media (max-width: 960px) {
+      .grid-3, .grid-4, .builder-grid, .about-box, .delivery-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.8rem; }
+      .trust-row { grid-template-columns: repeat(2,1fr); }
+      .builder-photo { min-height: 280px; }
+    }
+    @media (max-width: 560px) {
+      .hero h1 { font-size: 2.2rem; }
+      .section-head h2 { font-size: 2rem; }
+      .cart-button { left: 16px; right: auto; bottom: 16px; }
+    }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="topbar">🍨 San Remo Gelato – Eistorten, Eisbecher, Familienbecher & Lieferung</div>
-  <header>
-    <div class="nav">
-      <a class="logo" href="#top">San Remo<small>Eiscafé & Gelato</small><span class="flag"><span class="it1"></span><span class="it2"></span><span class="it3"></span></span></a>
-      <nav class="navlinks"><a href="#top">Startseite</a><a href="#torten">Eistorten</a><a href="#familien">Gelato & Becher</a><a href="#admin">Admin</a><a href="#lieferung">Lieferung</a></nav>
-      <button class="btn" onclick="toggleCart()">🛒 Warenkorb <span id="cartCount">0</span></button>
+<div class="topbar">🍨 San Remo Gelato – Eistorten handgemacht | Familienbecher & Eisbecher – Lieferung nach Bad Berleburg</div>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="#top">San Remo<small>Eiscafé & Gelato</small></a>
+    <nav class="nav-links">
+      <a href="#torten">Eistorten</a>
+      <a href="#familien">Familienbecher</a>
+      <a href="#becher">Eisbecher</a>
+      <a href="#admin">Admin</a>
+      <a href="#lieferung">Lieferung</a>
+    </nav>
+    <button class="btn dark" onclick="toggleCart()">🛒 Warenkorb <span id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Handgemachte Eistorten & echtes Gelato</h1>
+      <div class="script">Sizilianische Leidenschaft</div>
+      <p>Wählen Sie Ihre Lieblingstorte, Familienbecher oder Kreieren Sie Ihre eigene Eistorte. Sammeln Sie im Warenkorb und bestellen Sie direkt per WhatsApp.</p>
+      <div class="hero-buttons">
+        <a class="btn green" href="#torten">Jetzt entdecken</a>
+        <button class="btn light" onclick="toggleCart()">🛒 Warenkorb ansehen</button>
+      </div>
+      <div class="trust-row">
+        <div class="trust-box"><span>🍦</span> Handwerkskunst</div>
+        <div class="trust-box"><span>🍰</span> Maßanfertigung</div>
+        <div class="trust-box"><span>🚚</span> Schnelle Lieferung</div>
+        <div class="trust-box"><span>💚</span> Frische Zutaten</div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main id="top">
-    <section class="hero">
-      <div class="heroGrid">
-        <div class="heroText">
-          <h1>Handgemachte<br>Eistorten & Gelato</h1>
-          <div class="script">mit Liebe gemacht</div>
-          <p>Feinste Zutaten, beste Qualität und echte Handarbeit – für besondere Momente. Bestellen per WhatsApp, Zahlung bei Lieferung oder Abholung.</p>
-          <div class="heroBtns"><a class="btn" href="#torten">🎂 Eistorten ansehen</a><button class="btn outline" onclick="toggleCart()">Warenkorb öffnen</button></div>
-          <div class="trust"><div class="trustBox"><div class="icon">🌿</div>Beste Zutaten<small>frisch & ausgewählt</small></div><div class="trustBox"><div class="icon">🍦</div>Frisch & cremig<small>echtes Gelato</small></div><div class="trustBox"><div class="icon">🤎</div>Mit Liebe<small>handgemacht</small></div><div class="trustBox"><div class="icon">🚚</div>Lieferung<small>Bad Berleburg</small></div></div>
+  <!-- Eistorten Übersicht -->
+  <section id="torten">
+    <div class="section-head"><h2>Unsere Eistorten</h2><p>Perfekt für Geburtstage, Feste & jede süße Stunde</p></div>
+    <div class="grid-3">
+      <div class="card"><div class="image-box" style="background-image:url('https://images.unsplash.com/photo-1578985545062-69928b1b9582?w=600&q=80')"></div><div class="card-body"><h3>Eistorte 18 cm</h3><p>1,3 kg cremiges Gelato + Dekoration.</p><div class="price">28,00 €</div><button class="btn" onclick="addCart('Eistorte 18 cm', 28, 1, 'ca. 1,3 kg inkl. Dekoration')">In den Warenkorb</button></div></div>
+      <div class="card"><div class="image-box" style="background-image:url('https://images.unsplash.com/photo-1623928369795-5a2a4ca7e383?w=600&q=80')"></div><div class="card-body"><h3>Eistorte 24 cm</h3><p>Große Torte für 8–10 Personen.</p><div class="price">42,90 €</div><button class="btn" onclick="addCart('Eistorte 24 cm', 42.90, 1, 'inkl. Dekoration & Schichtung')">In den Warenkorb</button></div></div>
+      <div class="card"><div class="image-box" style="background-image:url('https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=600&q=80')"></div><div class="card-body"><h3>Wunschtorte</h3><p>Bis zu 5 Sorten, personalisierter Text, Extras.</p><div class="price">ab 28,00 €</div><a class="btn light" href="#konfigurator">Jetzt konfigurieren</a></div></div>
+    </div>
+  </section>
+
+  <!-- Konfigurator -->
+  <section id="konfigurator">
+    <div class="section-head"><h2>Ihre Wunsch-Eistorte</h2><p>Gestalten Sie Ihre Traumtorte Schritt für Schritt</p></div>
+    <div class="builder">
+      <div class="builder-grid">
+        <div class="builder-photo"></div>
+        <div>
+          <div class="steps"><div class="step"><b>1</b>Größe</div><div class="step"><b>2</b>Sorten (bis 5)</div><div class="step"><b>3</b>Text & Extras</div><div class="step"><b>4</b>Liefertermin</div></div>
+          <form class="form-grid" onsubmit="addCakeConfig(event)">
+            <div><label>Größe</label><select id="cakeSize"><option value="18 cm|28">18 cm – 28,00 €</option><option value="24 cm|42.90">24 cm – 42,90 €</option></select></div>
+            <div><label>Abholung / Lieferung</label><select id="cakeDelivery"><option>Abholung</option><option>Lieferung (nach Absprache)</option></select></div>
+            <div><select id="cakeFlavor1"></select></div><div><select id="cakeFlavor2"></select></div>
+            <div><select id="cakeFlavor3"></select></div><div><select id="cakeFlavor4"></select></div>
+            <div><select id="cakeFlavor5"></select></div>
+            <div><label>Wunschdatum</label><input id="cakeDate" type="date" /></div>
+            <div><label>Uhrzeit</label><input id="cakeTime" type="time" /></div>
+            <div class="full"><label>Text auf der Torte</label><input id="cakeText" placeholder="z.B. Alles Gute, Luca" /></div>
+            <div class="full"><label>Extras / besondere Wünsche</label><textarea id="cakeNotes" placeholder="Schokoladendeko, Früchte, Krokant..."></textarea></div>
+            <div class="full"><button class="btn" type="submit">🎂 Torte in den Warenkorb</button></div>
+          </form>
         </div>
-        <div class="heroImage"><img src="img/27935.png" alt="San Remo Eistorten und Gelato"></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section>
-      <div class="sectionHead"><h2>Unsere Eistorten – für jeden Anlass</h2><p>Geburtstag, Kommunion, Konfirmation, Familie oder Firmenfeier.</p></div>
-      <div class="gallery">
-        <div class="galleryCard"><img src="img/27935.png" alt="Fruchtig"><b>Fruchtig & frisch</b></div>
-        <div class="galleryCard"><img src="img/27935.png" alt="Schokolade"><b>Schokoladenträume</b></div>
-        <div class="galleryCard"><img src="img/27935.png" alt="Schokoladenliebhaber"><b>Schokoladenliebhaber</b></div>
-        <div class="galleryCard"><img src="img/27935.png" alt="Geburtstag"><b>Geburtstag</b></div>
-        <div class="galleryCard"><img src="img/27935.png" alt="Kommunion"><b>Kommunion & Konfirmation</b></div>
-        <div class="galleryCard"><img src="img/27935.png" alt="Individuell"><b>Individuelle Wünsche</b></div>
+  <!-- Familienbecher -->
+  <section id="familien">
+    <div class="section-head"><h2>Familienbecher & Aktionen</h2><p>Für zu Hause – große Genussmomente</p></div>
+    <div class="grid-3">
+      <div class="card"><div class="image-box" style="background-image:url('https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=600&q=80')"></div><div class="card-body"><h3>Familienbecher 750g</h3><p>Sorte nach Wahl (z.B. Vanille, Schoko, Straciatella).</p><div class="price">8,90 €</div><button class="btn" onclick="addCart('Familienbecher 750 g', 8.90, 1, 'Sorte bitte im Warenkorb angeben')">In den Warenkorb</button></div></div>
+      <div class="card"><div class="image-box" style="background-image:url('https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?w=600&q=80')"></div><div class="card-body"><h3>Gelato Becher 170g</h3><p>Perfekt für unterwegs oder zum Probieren.</p><div class="price">3,60 €</div><button class="btn" onclick="addCart('Gelato Becher 170 g', 3.60, 1, 'Sorte bitte angeben')">In den Warenkorb</button></div></div>
+      <div class="card"><div class="image-box" style="background-image:url('https://images.unsplash.com/photo-1563805042-2a838010d8ae?w=600&q=80')"></div><div class="card-body"><span class="tag">🔥 Angebot</span><h3>10er Box 170g</h3><p>10 kleine Becher – gemischt oder nach Wahl.</p><div class="price">29,90 €</div><button class="btn" onclick="addCart('10er Box 170 g', 29.90, 1, '10 Becher, Sortenwunsch möglich')">In den Warenkorb</button></div></div>
+    </div>
+  </section>
+
+  <!-- Dynamische Eisbecher & Neuheiten -->
+  <section id="becher">
+    <div class="section-head"><h2>Gelateria Eisbecher</h2><p>Klassiker wie Spaghetti-Eis & Kreationen</p></div>
+    <div class="grid-4" id="becherGrid"></div>
+  </section>
+
+  <section id="neuheiten">
+    <div class="section-head"><h2>Neu & Saison-Highlights</h2><p>Immer frisch, immer lecker</p></div>
+    <div class="grid-4" id="newGrid"></div>
+  </section>
+
+  <!-- Admin Bereich -->
+  <section id="admin">
+    <div class="admin-box" id="adminBox">
+      <div class="admin-header"><h2>🔐 Admin Bereich</h2><p class="small-text">PIN 1234 – Produkte, Preise & Sichtbarkeit verwalten</p></div>
+      <div class="login-area"><div class="admin-login"><input id="adminPin" type="password" placeholder="PIN" /><button class="btn dark" onclick="loginAdmin()">Einloggen</button></div></div>
+      <div class="admin-content">
+        <div class="form-grid">
+          <input type="hidden" id="editIndex">
+          <div><label>Produktname</label><input id="pName" placeholder="z.B. Spaghetti Eis"></div>
+          <div><label>Preis (€)</label><input id="pPrice" type="number" step="0.01" placeholder="6.90"></div>
+          <div><label>Kategorie</label><select id="pCat"><option value="becher">Eisbecher</option><option value="neuheit">Neuheit</option></select></div>
+          <div><label>Sichtbar?</label><select id="pVisible"><option value="yes">Sichtbar</option><option value="no">Ausblenden</option></select></div>
+          <div class="full"><label>Beschreibung</label><input id="pDesc" placeholder="Kurzbeschreibung"></div>
+          <div class="full"><button class="btn" onclick="saveProduct()">Speichern</button> <button class="btn gray" onclick="clearProductForm()">Leeren</button> <button class="btn gold" onclick="exportProducts()">Backup</button> <button class="btn danger" onclick="resetProducts()">Standard wiederherstellen</button></div>
+        </div>
+        <div class="admin-list" id="adminList"></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="torten">
-      <div class="sectionHead"><h2>Eistorten bestellen</h2><p>Preis inklusive Dekoration. Bis zu 5 Eissorten wählbar.</p></div>
-      <div class="grid3">
-        <div class="card"><div class="cardImg"><img src="img/27935.png" alt="18 cm Eistorte"></div><div class="cardBody"><h3>Eistorte 18 cm</h3><p>ca. 1,3 kg Gelato + Dekoration. Bis zu 5 Sorten möglich.</p><div class="price">28,00 €</div><button class="btn" onclick="addCart('Eistorte 18 cm',28,1,'ca. 1,3 kg, bis 5 Sorten, inkl. Dekoration')">In den Warenkorb</button></div></div>
-        <div class="card"><div class="cardImg"><img src="img/27935.png" alt="24 cm Eistorte"></div><div class="cardBody"><h3>Eistorte 24 cm</h3><p>Große Eistorte inklusive Dekoration. Bis zu 5 Sorten möglich.</p><div class="price">42,90 €</div><button class="btn" onclick="addCart('Eistorte 24 cm',42.90,1,'bis 5 Sorten, inkl. Dekoration')">In den Warenkorb</button></div></div>
-        <div class="card"><div class="cardImg"><img src="img/27935.png" alt="Wunschtorte"></div><div class="cardBody"><h3>Wunschtorte konfigurieren</h3><p>Größe, Sorten, Text, Extras, Datum und Uhrzeit.</p><div class="price">ab 28,00 €</div><a class="btn outline" href="#konfigurator">Konfigurieren</a></div></div>
-      </div>
-    </section>
+  <!-- Über uns & Lieferinfo -->
+  <section>
+    <div class="about-box">
+      <div class="about-photo"></div>
+      <div><h2>Über San Remo</h2><p>Seit 1998 fertigen wir in Bad Berleburg handgemachtes Gelato nach original italienischem Rezept. Jede Eistorte wird liebevoll dekoriert – nur beste Rohstoffe, keine künstlichen Aromen.</p><p>Ihre Bestellung wird persönlich per WhatsApp bestätigt. Wir liefern nach Absprache oder Sie holen bei uns ab.</p><a class="btn green" href="https://wa.me/4917672809926?text=Hallo%20San%20Remo,%20ich%20habe%20eine%20Frage%20zu%20Eistorten." target="_blank">📲 WhatsApp Frage stellen</a></div>
+    </div>
+  </section>
 
-    <section id="konfigurator">
-      <div class="sectionHead"><h2>Eistorte konfigurieren</h2><p>Alle Angaben kommen sauber in die WhatsApp-Bestellung.</p></div>
-      <div class="builder"><div class="builderGrid"><div class="builderPhoto"><img src="img/27935.png" alt="San Remo Eistorte"></div><div>
-        <div class="steps"><div class="step"><b>1</b>Größe wählen</div><div class="step"><b>2</b>Bis zu 5 Sorten</div><div class="step"><b>3</b>Text & Extras</div><div class="step"><b>4</b>Termin</div></div>
-        <form class="formGrid" onsubmit="addCakeConfig(event)">
-          <div><label>Größe</label><select id="cakeSize"><option value="18 cm|28">18 cm – 28,00 €</option><option value="24 cm|42.90">24 cm – 42,90 €</option></select></div>
-          <div><label>Abholung / Lieferung</label><select id="cakeDelivery"><option>Abholung</option><option>Lieferung</option></select></div>
-          <div><label>1. Eissorte</label><select id="cakeFlavor1"></select></div><div><label>2. Eissorte</label><select id="cakeFlavor2"></select></div><div><label>3. Eissorte</label><select id="cakeFlavor3"></select></div><div><label>4. Eissorte</label><select id="cakeFlavor4"></select></div><div><label>5. Eissorte</label><select id="cakeFlavor5"></select></div>
-          <div><label>Datum</label><input id="cakeDate" type="date"></div><div><label>Uhrzeit</label><input id="cakeTime" type="time"></div>
-          <div class="full"><label>Text auf der Torte</label><input id="cakeText" placeholder="z. B. Alles Gute Luca"></div>
-          <div class="full"><label>Extras / Wunsch</label><textarea id="cakeNotes" placeholder="z. B. Kinderschokolade, Erdbeeren, Oreo..."></textarea></div>
-          <div class="full"><button class="btn" type="submit">🎂 Torte in den Warenkorb</button></div>
-        </form>
-      </div></div></div>
-    </section>
+  <section id="lieferung">
+    <div class="section-head"><h2>Lieferung & Zahlung</h2><p>Flexibel, sicher & unkompliziert</p></div>
+    <div class="delivery-grid">
+      <div class="delivery-box"><div class="icon">📍</div><h3>Bad Berleburg</h3><p>Mindestbestellung 20€ – Lieferung innerhalb der Stadt.</p></div>
+      <div class="delivery-box"><div class="icon">🚚</div><h3>Umkreis</h3><p>Nach Absprache (ab 35€) – einfach im Warenkorb vermerken.</p></div>
+      <div class="delivery-box"><div class="icon">💳</div><h3>Zahlung</h3><p>Bar, EC-Karte oder PayPal bei Lieferung/Abholung.</p></div>
+    </div>
+    <div class="notice">📌 Wichtiger Hinweis: Die Bestellung wird erst nach Rückmeldung per WhatsApp von San Remo verbindlich. Bitte füllen Sie Ihre Kontaktdaten im Warenkorb aus.</div>
+  </section>
+</main>
 
-    <section id="familien"><div class="sectionHead"><h2>Gelato, Becher & Boxen</h2><p>Für Zuhause, Wochenende, Gäste oder als Geschenk.</p></div><div class="grid3">
-      <div class="card"><div class="cardImg"><img src="img/27935.png" alt="750g Becher"></div><div class="cardBody"><h3>Familienbecher 750 g</h3><p>Großer Becher für Zuhause. Sorte im Warenkorb angeben.</p><div class="price">8,90 €</div><button class="btn" onclick="addCart('Familienbecher 750 g',8.90,1,'Sorte bitte angeben')">In den Warenkorb</button></div></div>
-      <div class="card"><div class="cardImg"><img src="img/27935.png" alt="170g Becher"></div><div class="cardBody"><h3>Gelato Becher 170 g</h3><p>Kleiner Becher, verschiedene Sorten.</p><div class="price">3,60 €</div><button class="btn" onclick="addCart('Gelato Becher 170 g',3.60,1,'Sorte bitte angeben')">In den Warenkorb</button></div></div>
-      <div class="card"><div class="cardImg"><img src="img/27935.png" alt="10er Box"></div><div class="cardBody"><span class="tag">Angebot</span><h3>10er Box 170 g</h3><p>10 kleine Becher mit gemischten oder gewünschten Sorten.</p><div class="price">29,90 €</div><button class="btn" onclick="addCart('10er Box 170 g',29.90,1,'10 Becher, gemischt oder Wunschsorten')">In den Warenkorb</button></div></div>
-    </div></section>
+<button class="cart-button" onclick="toggleCart()">🛒 Warenkorb • <span id="cartTotalSmall">0,00 €</span></button>
 
-    <section id="becher"><div class="sectionHead"><h2>Gelateria Klassiker</h2><p>Direkt wie in der Gelateria – zum Abholen oder Liefern.</p></div><div class="grid4" id="becherGrid"></div></section>
-    <section id="neuheiten"><div class="sectionHead"><h2>Neuheiten & Aktionen</h2><p>Neue Produkte und Angebote.</p></div><div class="grid4" id="newGrid"></div></section>
+<aside class="cart-panel" id="cartPanel">
+  <h3>Ihre Bestellung</h3>
+  <div id="cartItems"></div>
+  <div class="cart-total" id="cartTotal">0,00 €</div>
+  <div class="form-grid">
+    <div><label>Name</label><input id="custName" placeholder="Vollname"></div>
+    <div><label>Telefon</label><input id="custPhone" placeholder="für Rückfragen"></div>
+    <div><label>Datum</label><input id="orderDate" type="date"></div>
+    <div><label>Uhrzeit</label><input id="orderTime" type="time"></div>
+    <div class="full"><label>Lieferung / Abholung</label><select id="orderType"><option>Abholung</option><option>Lieferung</option></select></div>
+    <div class="full"><label>Adresse & Sortenwünsche</label><textarea id="orderNotes" placeholder="Straße, Hausnummer, gewünschte Sorten..."></textarea></div>
+  </div>
+  <button class="btn green" style="width:100%;" onclick="sendWhatsAppOrder()">📲 Jetzt per WhatsApp bestellen</button>
+  <button class="btn light" style="width:100%; margin-top:8px" onclick="clearCart()">Warenkorb leeren</button>
+</aside>
 
-    <section><div class="splitCards"><div class="infoCard"><img src="img/27935.png" alt="Über San Remo"><div><h3>Über San Remo</h3><p>Handgemachte Eisspezialitäten und Eistorten in bester Qualität.</p><a class="btn outline" href="#top">Mehr über uns</a></div></div><div class="infoCard"><img src="img/27935.png" alt="Gelato"><div><h3>Gelato & Becher</h3><p>Feinstes Gelato in vielen Geschmacksrichtungen.</p><a class="btn outline" href="#familien">Zu den Sorten</a></div></div><div class="infoCard"><img src="img/27935.png" alt="Lieferung"><div><h3>Lieferung & Abholung</h3><p>Wir liefern nach Absprache oder bereiten alles zur Abholung vor.</p><a class="btn outline" href="#lieferung">Mehr erfahren</a></div></div></div></section>
+<footer>
+  <h3>Eiscafé San Remo – Bad Berleburg</h3>
+  <p>Handgemachtes Gelato • Eistorten • Familienbecher • Lieferung & Abholung</p>
+  <p>📞 0176 72809926 | täglich 12:00–20:30 (Freitag Ruhetag)</p>
+  <div class="legal">© San Remo Gelato – Impressum & Datenschutz folgen in Kürze.</div>
+</footer>
 
-    <section id="admin"><div class="panel adminBox" id="adminBox"><div class="adminHeader"><h2>🔐 Admin Produkte</h2><p class="smallText">PIN: 1234. Produkte, Preise, Neuheiten und Sichtbarkeit bearbeiten. Speicherung im Browser.</p></div><div class="loginArea"><div class="adminLogin"><input id="adminPin" type="password" placeholder="PIN eingeben"><button class="btn dark" onclick="loginAdmin()">Einloggen</button></div></div><div class="adminContent"><div class="formGrid"><input type="hidden" id="editIndex"><div><label>Produktname</label><input id="pName" placeholder="z. B. Neuer Becher"></div><div><label>Preis €</label><input id="pPrice" type="number" step="0.01" placeholder="9.50"></div><div><label>Kategorie</label><select id="pCat"><option value="becher">Eisbecher</option><option value="neuheit">Neuheit / Angebot</option></select></div><div><label>Status</label><select id="pVisible"><option value="yes">Sichtbar</option><option value="no">Ausblenden</option></select></div><div class="full"><label>Beschreibung</label><input id="pDesc" placeholder="kurze Beschreibung"></div><div class="full"><button class="btn" onclick="saveProduct()">Produkt speichern</button> <button class="btn gray" onclick="clearProductForm()">Leeren</button> <button class="btn gold" onclick="exportProducts()">Backup Export</button> <button class="btn danger" onclick="resetProducts()">Standard wiederherstellen</button></div></div><div class="adminList" id="adminList"></div></div></div></section>
+<script>
+  // ---------- KONFIGURATION ----------
+  const PHONE = '4917672809926';
+  const STORAGE_KEY = 'sanremo_prof_products';
+  const ADMIN_PIN = '1234';
+  let cart = [];
 
-    <section id="lieferung"><div class="sectionHead"><h2>Lieferung & Zahlung</h2><p>Bestellung per WhatsApp. Zahlung bei Lieferung oder Abholung.</p></div><div class="delivery"><div class="deliveryBox"><div class="icon">📍</div><h3>Bad Berleburg</h3><p>Mindestbestellung ab <strong>20 €</strong>.</p></div><div class="deliveryBox"><div class="icon">🚚</div><h3>Umgebung</h3><p>Nach Absprache, empfohlen ab <strong>35 €</strong>.</p></div><div class="deliveryBox"><div class="icon">💳</div><h3>Zahlung</h3><p>Bar, EC-Karte oder PayPal bei Lieferung/Abholung.</p></div></div><div class="notice">Wichtig: Die Bestellung ist erst bestätigt, wenn San Remo per WhatsApp antwortet.</div></section>
-  </main>
+  const defaultProducts = [
+    { name: 'Spaghetti Eis Bambini', price: 5.90, category: 'becher', description: 'Klassischer Eisbecher mit Erdbeersoße.', visible: true },
+    { name: 'Spaghetti Choco', price: 6.00, category: 'becher', description: 'Schoko-Variante mit Sahne.', visible: true },
+    { name: 'Spaghetti Gummy', price: 6.00, category: 'becher', description: 'Mit bunten Gummibärchen.', visible: true },
+    { name: 'Kiwi Traum', price: 9.90, category: 'becher', description: 'Fruchtig & erfrischend.', visible: true },
+    { name: 'Fruit Lovers', price: 9.50, category: 'becher', description: 'Beeren & Mango.', visible: true },
+    { name: 'Erdbeer Parade', price: 9.50, category: 'becher', description: 'Mit frischen Erdbeeren.', visible: true },
+    { name: 'Amarena Kirsch', price: 9.50, category: 'becher', description: 'Sauerkirschen & Sahne.', visible: true },
+    { name: 'Dubai Schoko Neuheit', price: 11.90, category: 'neuheit', description: 'Limited Edition – Dubai-Schokolade & Pistazie', visible: true }
+  ];
+  let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultProducts;
+  const flavors = ['', 'Vanille', 'Schokolade', 'Stracciatella', 'Amarena', 'Cookies', 'Spaghetti', 'Kinder', 'Toffifee', 'Erdbeer', 'Mango', 'Joghurt Orange', 'Pistazie', 'Haselnuss', 'Dubai Schokolade'];
 
-  <button class="cartButton" onclick="toggleCart()">🛒 Warenkorb: <span id="cartTotalSmall">0,00 €</span></button>
-  <aside class="cartPanel" id="cartPanel"><h3>Warenkorb</h3><div id="cartItems"></div><div class="cartTotal" id="cartTotal">0,00 €</div><div class="formGrid"><div><label>Name</label><input id="custName" placeholder="Ihr Name"></div><div><label>Telefon</label><input id="custPhone" placeholder="Telefonnummer"></div><div><label>Datum</label><input id="orderDate" type="date"></div><div><label>Uhrzeit</label><input id="orderTime" type="time"></div><div class="full"><label>Lieferung oder Abholung</label><select id="orderType"><option>Abholung</option><option>Lieferung</option></select></div><div class="full"><label>Adresse / Sorten / Notizen</label><textarea id="orderNotes" placeholder="Adresse bei Lieferung, gewünschte Sorten, Hinweise..."></textarea></div></div><button class="btn green" style="width:100%;margin-top:12px" onclick="sendWhatsAppOrder()">📲 Bestellung per WhatsApp senden</button><button class="btn outline" style="width:100%;margin-top:8px" onclick="clearCart()">Warenkorb leeren</button></aside>
+  function getVal(id) { return document.getElementById(id).value; }
+  function formatMoney(v) { return Number(v).toFixed(2).replace('.',',') + ' €'; }
 
-  <footer><h3>Eiscafé San Remo – Bad Berleburg</h3><p>Handgemachtes Gelato • Eistorten • Familienbecher • Lieferung & Abholung</p><p>Täglich 12:00 – 20:30 Uhr • Freitag Ruhetag</p><div class="legal">Vor Veröffentlichung: Impressum + Datenschutz ergänzen.</div></footer>
+  function fillFlavors() {
+    for(let i=1;i<=5;i++) {
+      let sel = document.getElementById(`cakeFlavor${i}`);
+      if(sel) sel.innerHTML = flavors.map(f => `<option value="${f}">${f || (i===1?'Bitte wählen':'Keine Sorte')}</option>`).join('');
+    }
+  }
 
-  <script>
-    const PHONE_NUMBER='4917672809926';
-    const STORAGE_KEY='sanremo_products_profi_final';
-    const ADMIN_PIN='1234';
-    let cart=[];
-    const defaultProducts=[
-      {name:'Spaghetti Bambini',price:5.90,category:'becher',description:'Frisch zubereiteter Eisbecher.',visible:true},
-      {name:'Spaghetti Choco',price:6.00,category:'becher',description:'Frisch zubereiteter Eisbecher.',visible:true},
-      {name:'Spaghetti Gummy Becher',price:6.00,category:'becher',description:'Frisch zubereiteter Eisbecher.',visible:true},
-      {name:'Kiwi Becher',price:9.90,category:'becher',description:'Frisch zubereiteter Eisbecher.',visible:true},
-      {name:'Fruit Becher',price:9.50,category:'becher',description:'Frisch zubereiteter Eisbecher.',visible:true},
-      {name:'Erdbeer Becher',price:9.50,category:'becher',description:'Frisch zubereiteter Eisbecher.',visible:true},
-      {name:'Amarena Becher',price:9.50,category:'becher',description:'Frisch zubereiteter Eisbecher.',visible:true}
-    ];
-    let products=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null')||defaultProducts;
-    const flavors=['','Vanille','Schokolade','Stracciatella','Amarena','Cookies','Spaghetti','Kinder Riegel','Toffifee','Erdbeer','Mango','Joghurt Orange','Pistazie','Haselnuss','Dubai Schokolade'];
-    function getValue(id){return document.getElementById(id).value}
-    function formatMoney(value){return Number(value).toFixed(2).replace('.',',')+' €'}
-    function safe(text){return String(text).replace(/'/g,"\'")}
-    function fillFlavorOptions(){['cakeFlavor1','cakeFlavor2','cakeFlavor3','cakeFlavor4','cakeFlavor5'].forEach((id,index)=>{const s=document.getElementById(id);s.innerHTML=flavors.map(f=>`<option value="${f}">${f||(index===0?'Bitte wählen':'Keine weitere Sorte')}</option>`).join('')})}
-    function productCard(p){const tag=p.category==='neuheit'?'<span class="tag">Neuheit</span>':'';const note=p.category==='neuheit'?'Neuheit / Angebot':'Gelateria Eisbecher';return `<div class="product">${tag}<h3>${p.name}</h3><p>${p.description||'Frisch zubereitet.'}</p><div class="price">${formatMoney(p.price)}</div><button class="btn" onclick="addCart('${safe(p.name)}',${Number(p.price)},1,'${note}')">In den Warenkorb</button></div>`}
-    function renderProducts(){const v=products.filter(p=>p.visible!==false);const b=v.filter(p=>p.category==='becher');const n=v.filter(p=>p.category==='neuheit');document.getElementById('becherGrid').innerHTML=b.length?b.map(productCard).join(''):'<p>Keine Eisbecher sichtbar.</p>';document.getElementById('newGrid').innerHTML=n.length?n.map(productCard).join(''):'<p>Aktuell keine Neuheiten.</p>'}
-    function loginAdmin(){if(getValue('adminPin')===ADMIN_PIN){document.getElementById('adminBox').classList.add('open');renderAdmin()}else alert('Falscher PIN')}
-    function renderAdmin(){document.getElementById('adminList').innerHTML=products.map((p,i)=>`<div class="adminItem ${p.visible===false?'faded':''}"><div><b>${p.name}</b><div>${formatMoney(p.price)} • ${p.category} • ${p.visible===false?'ausgeblendet':'sichtbar'}</div><div class="smallText">${p.description||''}</div></div><div class="adminActions"><button class="btn small gray" onclick="editProduct(${i})">Ändern</button><button class="btn small gold" onclick="toggleVisible(${i})">${p.visible===false?'Einblenden':'Ausblenden'}</button><button class="btn small danger" onclick="deleteProduct(${i})">Löschen</button></div></div>`).join('')}
-    function saveAllProducts(){localStorage.setItem(STORAGE_KEY,JSON.stringify(products));renderProducts();renderAdmin()}
-    function saveProduct(){const name=getValue('pName').trim();const price=parseFloat(getValue('pPrice'));if(!name||Number.isNaN(price)){alert('Name und Preis eingeben');return}const product={name,price,category:getValue('pCat'),description:getValue('pDesc'),visible:getValue('pVisible')==='yes'};const idx=getValue('editIndex');if(idx==='')products.push(product);else products[Number(idx)]=product;clearProductForm();saveAllProducts()}
-    function editProduct(i){const p=products[i];document.getElementById('editIndex').value=i;document.getElementById('pName').value=p.name;document.getElementById('pPrice').value=p.price;document.getElementById('pCat').value=p.category;document.getElementById('pDesc').value=p.description||'';document.getElementById('pVisible').value=p.visible===false?'no':'yes'}
-    function deleteProduct(i){if(!confirm('Produkt löschen?'))return;products.splice(i,1);saveAllProducts()}
-    function toggleVisible(i){products[i].visible=products[i].visible===false;saveAllProducts()}
-    function clearProductForm(){document.getElementById('editIndex').value='';document.getElementById('pName').value='';document.getElementById('pPrice').value='';document.getElementById('pDesc').value='';document.getElementById('pCat').value='becher';document.getElementById('pVisible').value='yes'}
-    function resetProducts(){if(!confirm('Standard wiederherstellen?'))return;products=JSON.parse(JSON.stringify(defaultProducts));saveAllProducts()}
-    function exportProducts(){const data='data:text/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(products,null,2));const a=document.createElement('a');a.href=data;a.download='sanremo-produkte-backup.json';a.click()}
-    function addCart(name,price,quantity=1,note=''){cart.push({name,price,quantity,note});renderCart();document.getElementById('cartPanel').classList.add('open')}
-    function addCakeConfig(e){e.preventDefault();const [size,price]=getValue('cakeSize').split('|');const selected=['cakeFlavor1','cakeFlavor2','cakeFlavor3','cakeFlavor4','cakeFlavor5'].map(getValue).filter(Boolean);if(!selected.length){alert('Bitte mindestens eine Eissorte wählen');return}const note=[`Sorten: ${selected.join(', ')}`,`Text: ${getValue('cakeText')||'kein Text'}`,`Extras: ${getValue('cakeNotes')||'keine Extras'}`,`Termin: ${getValue('cakeDate')||'kein Datum'} ${getValue('cakeTime')||'keine Uhrzeit'}`,getValue('cakeDelivery')].join('; ');addCart('Eistorte '+size,parseFloat(price),1,note)}
-    function renderCart(){const total=cart.reduce((s,i)=>s+i.price*i.quantity,0);document.getElementById('cartCount').textContent=cart.length;document.getElementById('cartTotal').textContent=formatMoney(total);document.getElementById('cartTotalSmall').textContent=formatMoney(total);document.getElementById('cartItems').innerHTML=cart.length?cart.map((item,index)=>`<div class="cartItem"><b>${item.quantity}x ${item.name}</b><span>${item.note||''}</span><div>${formatMoney(item.price*item.quantity)}</div><button class="remove" onclick="removeItem(${index})">Entfernen</button></div>`).join(''):'<p>Noch keine Produkte im Warenkorb.</p>'}
-    function removeItem(i){cart.splice(i,1);renderCart()}
-    function clearCart(){cart=[];renderCart()}
-    function toggleCart(){document.getElementById('cartPanel').classList.toggle('open')}
-    function sendWhatsAppOrder(){if(!cart.length){alert('Warenkorb ist leer');return}const total=cart.reduce((s,i)=>s+i.price*i.quantity,0);const lines=cart.map(i=>`- ${i.quantity}x ${i.name} (${formatMoney(i.price*i.quantity)})${i.note?' => '+i.note:''}`).join('%0A');const msg=`Hallo San Remo, ich möchte gerne bestellen:%0A%0A${lines}%0A%0AGesamt: ${formatMoney(total)}%0A%0AName: ${getValue('custName')||''}%0ATelefon: ${getValue('custPhone')||''}%0ADatum: ${getValue('orderDate')||''}%0AUhrzeit: ${getValue('orderTime')||''}%0AArt: ${getValue('orderType')}%0ANotizen/Adresse/Sorten: ${getValue('orderNotes')||''}%0A%0AZahlung bei Lieferung/Abholung. Bitte bestätigen Sie die Bestellung.`;window.open(`https://wa.me/${PHONE_NUMBER}?text=${msg}`,'_blank')}
-    fillFlavorOptions();renderProducts();renderCart();
-  </script>
+  function productCard(p) {
+    const tag = p.category === 'neuheit' ? '<span class="tag">✨ Neuheit</span>' : '';
+    const note = p.category === 'neuheit' ? 'Neuheit im Sortiment' : 'Klassischer Eisbecher';
+    return `<div class="product-card">${tag}<h3>${p.name}</h3><p>${p.description || ''}</p><div class="price">${formatMoney(p.price)}</div><button class="btn" onclick="addCart('${escape(p.name)}', ${p.price}, 1, '${note}')">In den Warenkorb</button></div>`;
+  }
+
+  function renderProducts() {
+    const visible = products.filter(p => p.visible !== false);
+    const becher = visible.filter(p => p.category === 'becher');
+    const neu = visible.filter(p => p.category === 'neuheit');
+    document.getElementById('becherGrid').innerHTML = becher.length ? becher.map(productCard).join('') : '<p>Keine Becher aktuell</p>';
+    document.getElementById('newGrid').innerHTML = neu.length ? neu.map(productCard).join('') : '<p>Neue Angebote erscheinen bald</p>';
+  }
+
+  // Admin
+  function loginAdmin() { if(getVal('adminPin')===ADMIN_PIN) { document.getElementById('adminBox').classList.add('open'); renderAdmin(); } else alert('PIN falsch'); }
+  function renderAdmin() {
+    document.getElementById('adminList').innerHTML = products.map((p,i)=>`<div class="admin-item"><div><b>${p.name}</b><div>${formatMoney(p.price)} • ${p.category} • ${p.visible?'sichtbar':'ausgeblendet'}</div><div class="small-text">${p.description||''}</div></div><div><button class="btn small gray" onclick="editProduct(${i})">Edit</button> <button class="btn small gold" onclick="toggleVisible(${i})">${p.visible?'Ausblenden':'Einblenden'}</button> <button class="btn small danger" onclick="deleteProduct(${i})">Löschen</button></div></div>`).join('');
+  }
+  function saveAll() { localStorage.setItem(STORAGE_KEY, JSON.stringify(products)); renderProducts(); renderAdmin(); }
+  function saveProduct() {
+    let name = getVal('pName').trim(), price = parseFloat(getVal('pPrice')), cat = getVal('pCat'), desc = getVal('pDesc'), visible = getVal('pVisible')==='yes', idx = getVal('editIndex');
+    if(!name || isNaN(price)) return alert('Name & Preis benötigt');
+    const prod = { name, price, category: cat, description: desc, visible };
+    if(idx==='') products.push(prod); else products[parseInt(idx)] = prod;
+    clearProductForm(); saveAll();
+  }
+  function editProduct(i) { let p = products[i]; document.getElementById('editIndex').value=i; document.getElementById('pName').value=p.name; document.getElementById('pPrice').value=p.price; document.getElementById('pCat').value=p.category; document.getElementById('pDesc').value=p.description||''; document.getElementById('pVisible').value=p.visible?'yes':'no'; }
+  function deleteProduct(i) { if(confirm('Löschen?')){ products.splice(i,1); saveAll(); } }
+  function toggleVisible(i) { products[i].visible = !products[i].visible; saveAll(); }
+  function clearProductForm() { ['editIndex','pName','pPrice','pDesc'].forEach(id=>document.getElementById(id).value=''); document.getElementById('pCat').value='becher'; document.getElementById('pVisible').value='yes'; }
+  function resetProducts() { if(confirm('Alle Produkte zurücksetzen?')){ products = JSON.parse(JSON.stringify(defaultProducts)); saveAll(); } }
+  function exportProducts() { let data = 'data:text/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(products)); let a = document.createElement('a'); a.href=data; a.download='sanremo_backup.json'; a.click(); }
+
+  // Warenkorb
+  function addCart(name, price, qty, note) { cart.push({ name, price, quantity: qty, note }); renderCart(); document.getElementById('cartPanel').classList.add('open'); }
+  function addCakeConfig(e) {
+    e.preventDefault();
+    let [size,price] = getVal('cakeSize').split('|');
+    let selected = ['cakeFlavor1','cakeFlavor2','cakeFlavor3','cakeFlavor4','cakeFlavor5'].map(getVal).filter(f=>f);
+    if(!selected.length) return alert('Mindestens eine Sorte wählen');
+    let note = `🍰 Größe: ${size} | Sorten: ${selected.join(', ')} | Text: ${getVal('cakeText')||'kein'} | Extras: ${getVal('cakeNotes')||'keine'} | Termin: ${getVal('cakeDate')||'-'} ${getVal('cakeTime')||'-'} | ${getVal('cakeDelivery')}`;
+    addCart(`Wunsch-Eistorte ${size}`, parseFloat(price), 1, note);
+  }
+  function renderCart() {
+    let total = cart.reduce((s,i)=>s + i.price*i.quantity,0);
+    document.getElementById('cartCount').innerText = cart.length;
+    document.getElementById('cartTotal').innerHTML = formatMoney(total);
+    document.getElementById('cartTotalSmall').innerHTML = formatMoney(total);
+    let html = cart.length ? cart.map((item,idx)=>`<div class="cart-item"><b>${item.quantity}x ${item.name}</b><span>${item.note||''}</span><div>${formatMoney(item.price*item.quantity)}</div><button class="remove" onclick="removeItem(${idx})">Entfernen</button></div>`).join('') : '<p>Warenkorb leer</p>';
+    document.getElementById('cartItems').innerHTML = html;
+  }
+  function removeItem(idx) { cart.splice(idx,1); renderCart(); }
+  function clearCart() { cart = []; renderCart(); }
+  function toggleCart() { document.getElementById('cartPanel').classList.toggle('open'); }
+  function sendWhatsAppOrder() {
+    if(!cart.length) return alert('Warenkorb ist leer');
+    let total = cart.reduce((s,i)=>s+i.price*i.quantity,0);
+    let itemsText = cart.map(i=>`- ${i.quantity}x ${i.name} (${formatMoney(i.price*i.quantity)})${i.note?' ➜ '+i.note:''}`).join('%0A');
+    let msg = `Hallo San Remo, ich möchte bestellen:%0A%0A${itemsText}%0A%0AGesamt: ${formatMoney(total)}%0A%0AName: ${getVal('custName')}%0ATel: ${getVal('custPhone')}%0ADatum: ${getVal('orderDate')}%0AUhrzeit: ${getVal('orderTime')}%0ALieferart: ${getVal('orderType')}%0ANotizen: ${getVal('orderNotes')}%0A%0AZahlung vor Ort. Bitte um Bestätigung.`;
+    window.open(`https://wa.me/${PHONE}?text=${msg}`, '_blank');
+  }
+  function escape(str) { return String(str).replace(/'/g, "\\'"); }
+  fillFlavors();
+  renderProducts();
+  renderCart();
+</script>
 </body>
 </html>
