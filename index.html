@@ -387,7 +387,6 @@
     return accum;
   }
 
-  // Allergenerkennung aus Komposition (für Produkte ohne eigene Allergene)
   function inferAllergensFromComposition(comp) {
     const keywords = {
       'MILCH': ['milch', 'molke', 'laktose', 'sahne', 'joghurt', 'butter', 'milcheiweiß'],
@@ -409,7 +408,6 @@
     return Array.from(found).join(', ');
   }
 
-  // Alle Allergene eines Produkts (eigene + abgeleitete)
   function getAllergensForProduct(prod) {
     let set = new Set();
     if (prod.allergens) prod.allergens.split(',').forEach(a => set.add(a.trim().toUpperCase()));
@@ -420,7 +418,6 @@
     return Array.from(set);
   }
 
-  // Zutatenliste mit fett markierten Allergenen (Art. 21)
   function getWeightSortedIngredientsWithMarkup(recipe) {
     const gramMap = new Map();
     for (let item of recipe.items) {
@@ -434,7 +431,6 @@
       }
     }
     const sorted = Array.from(gramMap.entries()).sort((a, b) => b[1] - a[1]);
-    // Alle Allergene über alle Produkte sammeln
     const allAllergens = new Set();
     for (let item of recipe.items) {
       const prod = state.products.find(p => p.id === item.productId);
@@ -619,7 +615,9 @@
     saveState();
   };
 
+  // CORREÇÃO: função global para remover item da receita
   window.removeRecipeDraftItem = (id) => {
+    if (!state.recipeDraft) state.recipeDraft = [];
     state.recipeDraft = state.recipeDraft.filter(i => i.id !== id);
     renderRecipeDraft();
     saveState();
@@ -635,11 +633,19 @@
     const total = state.recipeDraft.reduce((s,i) => s + i.qty, 0);
     document.getElementById('recipeTotalWeight').innerHTML = `<strong>Gesamt: ${total.toFixed(1)} g</strong>`;
     const tbody = document.getElementById('recipeItemsTable');
-    tbody.innerHTML = `<thead><tr><th>Produkt</th><th>Menge (g)</th><th>Anteil</th><th></th></thead><tbody>${state.recipeDraft.map(it => {
-      const prod = state.products.find(p => p.id === it.productId);
-      const percent = total ? (it.qty/total*100).toFixed(1) : 0;
-      return `<tr><td>${prod?.name || '?'}</td><td>${it.qty.toFixed(1)} g</td><td>${percent}%</td><td><button class="danger" onclick="removeRecipeDraftItem('${it.id}')">X</button></td></tr>`;
-    }).join('')}</tbody>`;
+    if (!tbody) return;
+    tbody.innerHTML = `<thead><tr><th>Produkt</th><th>Menge (g)</th><th>Anteil</th><th></th></tr></thead><tbody>${
+      state.recipeDraft.map(it => {
+        const prod = state.products.find(p => p.id === it.productId);
+        const percent = total ? (it.qty/total*100).toFixed(1) : 0;
+        return `<tr data-draft-id="${it.id}">
+          <td>${prod?.name || '?'}</td>
+          <td>${it.qty.toFixed(1)} g</td>
+          <td>${percent}%</td>
+          <td><button class="danger" style="padding:0 10px;" onclick="window.removeRecipeDraftItem('${it.id}')">X</button></td>
+         </tr>`;
+      }).join('')
+    }</tbody>`;
   }
 
   window.saveRecipe = () => {
