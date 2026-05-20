@@ -55,7 +55,6 @@
     .pill.error { background: rgba(231,76,60,0.2); color: #f5b7b1; }
     .pill.info { background: rgba(52,152,219,0.2); color: #7fb3d5; }
     .product-item, .recipe-item { background: var(--surface); border-radius: 12px; padding: 0.8rem; margin-bottom: 0.8rem; border-left: 3px solid var(--primary); }
-    /* Botões verde/vermelho alinhados dentro da lista de receitas */
     .recipe-item {
       display: flex;
       flex-wrap: wrap;
@@ -77,7 +76,6 @@
       text-align: center;
       margin: 0;
     }
-    /* Scroll para a lista de receitas */
     #savedRecipesList {
       max-height: 400px;
       overflow-y: auto;
@@ -114,119 +112,23 @@
   </div>
 
   <div class="main">
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="screen active">
-      <div class="grid">
-        <div class="card col-span-12">
-          <h2>📋 LMIV-konforme Steuerung</h2>
-          <p>Dieses System erfüllt alle Pflichten der Lebensmittelinformationsverordnung (EU) 1169/2011: <strong>Zutaten nach Gewicht sortiert (Art. 18 Abs. 2), Allergene in der Zutatenliste hervorgehoben (Art. 21), Nährwertdeklaration pro 100g, QUID-Angaben möglich</strong>. Ihre Daten aus dem Backup sind bereits enthalten.</p>
-          <div class="two-col" style="margin-top:1rem">
-            <div><span class="pill success">✓ Sortierung nach Gewicht</span> <span class="pill success">✓ Allergene **fett**</span></div>
-            <div><span class="pill success">✓ Nährwerte pro 100g</span> <span class="pill success">✓ QUID-Feld</span></div>
-          </div>
-        </div>
-        <div class="card col-span-4"><h3>📊 Statistik</h3><div id="statsArea"></div></div>
-        <div class="card col-span-4"><h3>📌 Arbeitsablauf</h3><ol style="margin-left:1.2rem"><li>Produkte mit 100%-Zusammensetzung</li><li>Rezept in Gramm erstellen</li><li>Etikett generieren (Allergene fett)</li><li>Technisches Datenblatt drucken</li></ol></div>
-        <div class="card col-span-4"><h3>⚖️ Rechtliche Basis</h3><p>Art. 18(2) – Zutaten absteigend nach Gewicht. Art. 21 – Allergene hervorgehoben. Nährwertdeklaration pro 100g.</p></div>
-      </div>
-    </section>
+    <section id="dashboard" class="screen active"><div class="grid"><div class="card col-span-12"><h2>📋 LMIV-konforme Steuerung</h2><p>Dieses System erfüllt alle Pflichten der Lebensmittelinformationsverordnung (EU) 1169/2011: <strong>Zutaten nach Gewicht sortiert (Art. 18 Abs. 2), Allergene in der Zutatenliste hervorgehoben (Art. 21), Nährwertdeklaration pro 100g, QUID-Angaben möglich</strong>. Ihre Daten aus dem Backup sind bereits enthalten.</p><div class="two-col" style="margin-top:1rem"><div><span class="pill success">✓ Sortierung nach Gewicht</span> <span class="pill success">✓ Allergene **fett**</span></div><div><span class="pill success">✓ Nährwerte pro 100g</span> <span class="pill success">✓ QUID-Feld</span></div></div></div><div class="card col-span-4"><h3>📊 Statistik</h3><div id="statsArea"></div></div><div class="card col-span-4"><h3>📌 Arbeitsablauf</h3><ol style="margin-left:1.2rem"><li>Produkte mit 100%-Zusammensetzung</li><li>Rezept in Gramm erstellen</li><li>Etikett generieren (Allergene fett)</li><li>Technisches Datenblatt drucken</li></ol></div><div class="card col-span-4"><h3>⚖️ Rechtliche Basis</h3><p>Art. 18(2) – Zutaten absteigend nach Gewicht. Art. 21 – Allergene hervorgehoben. Nährwertdeklaration pro 100g.</p></div></div></section>
 
-    <!-- PRODUKTE -->
-    <section id="products" class="screen">
-      <div class="grid">
-        <div class="card col-span-5">
-          <h2>➕ Produkt anlegen / bearbeiten</h2>
-          <input type="hidden" id="editProductId">
-          <label>Produktname</label><input id="prodName" placeholder="z.B. Bio-Vollmilch">
-          <label>Kategorie</label><select id="prodCategory"><option>Milchprodukt</option><option>PASTE</option><option>fettglasur</option><option>Frucht</option><option>Fett</option><option>Pulver</option><option>Zutat</option></select>
-          <label>Allergene (kommagetrennt, GROSS)</label><input id="prodAllergens" placeholder="MILCH, EI, GLUTEN">
-          <label>Kann Spuren enthalten von (freiwillig)</label><input id="prodTraceAllergens" placeholder="z.B. Nüsse, Sesam, Sulfite">
-          <div class="two-col"><div><label>kJ / 100g</label><input id="prodKj" type="number" step="any"></div><div><label>kcal / 100g</label><input id="prodKcal" type="number" step="any"></div></div>
-          <div class="two-col"><div><label>Fett (g)</label><input id="prodFat" step="any"></div><div><label>davon gesättigt</label><input id="prodSat" step="any"></div></div>
-          <div class="two-col"><div><label>Kohlenhydrate (g)</label><input id="prodCarb" step="any"></div><div><label>davon Zucker</label><input id="prodSugar" step="any"></div></div>
-          <div class="two-col"><div><label>Eiweiß (g)</label><input id="prodProtein" step="any"></div><div><label>Salz (g)</label><input id="prodSalt" step="any"></div></div>
-          <hr><h3>🧪 Exakte Zusammensetzung (100% Regel)</h3>
-          <div class="two-col"><div><label>Zutat / Rohstoff</label><input id="compName" placeholder="z.B. Vollmilch"></div><div><label>Anteil (%)</label><input id="compPercent" type="number" step="0.01"></div></div>
-          <button onclick="addIngredientToCurrent()">➕ Zutat hinzufügen</button>
-          <button class="secondary" onclick="normalizeCurrentProduct()">↺ Auf 100% normalisieren</button>
-          <button class="secondary" onclick="sortCurrentComposition()">🔄 Nach Gewicht sortieren</button>
-          <div class="progress-bar"><div class="progress-fill" id="productPercentFill"></div></div>
-          <div id="currentCompositionList"></div>
-          <hr><button onclick="saveProduct()">💾 Produkt speichern</button><button class="secondary" onclick="clearProductForm()">🔄 Formular leeren</button>
-        </div>
-        <div class="card col-span-7"><h2>📋 Ihre Produktbibliothek</h2><div id="productsList" style="max-height:600px; overflow-y:auto;"></div></div>
-      </div>
-    </section>
+    <section id="products" class="screen"><div class="grid"><div class="card col-span-5"><h2>➕ Produkt anlegen / bearbeiten</h2><input type="hidden" id="editProductId"><label>Produktname</label><input id="prodName" placeholder="z.B. Bio-Vollmilch"><label>Kategorie</label><select id="prodCategory"><option>Milchprodukt</option><option>PASTE</option><option>fettglasur</option><option>Frucht</option><option>Fett</option><option>Pulver</option><option>Zutat</option></select><label>Allergene (kommagetrennt, GROSS)</label><input id="prodAllergens" placeholder="MILCH, EI, GLUTEN"><label>Kann Spuren enthalten von (freiwillig)</label><input id="prodTraceAllergens" placeholder="z.B. Nüsse, Sesam, Sulfite"><div class="two-col"><div><label>kJ / 100g</label><input id="prodKj" type="number" step="any"></div><div><label>kcal / 100g</label><input id="prodKcal" type="number" step="any"></div></div><div class="two-col"><div><label>Fett (g)</label><input id="prodFat" step="any"></div><div><label>davon gesättigt</label><input id="prodSat" step="any"></div></div><div class="two-col"><div><label>Kohlenhydrate (g)</label><input id="prodCarb" step="any"></div><div><label>davon Zucker</label><input id="prodSugar" step="any"></div></div><div class="two-col"><div><label>Eiweiß (g)</label><input id="prodProtein" step="any"></div><div><label>Salz (g)</label><input id="prodSalt" step="any"></div></div><hr><h3>🧪 Exakte Zusammensetzung (100% Regel)</h3><div class="two-col"><div><label>Zutat / Rohstoff</label><input id="compName" placeholder="z.B. Vollmilch"></div><div><label>Anteil (%)</label><input id="compPercent" type="number" step="0.01"></div></div><button onclick="addIngredientToCurrent()">➕ Zutat hinzufügen</button><button class="secondary" onclick="normalizeCurrentProduct()">↺ Auf 100% normalisieren</button><button class="secondary" onclick="sortCurrentComposition()">🔄 Nach Gewicht sortieren</button><div class="progress-bar"><div class="progress-fill" id="productPercentFill"></div></div><div id="currentCompositionList"></div><hr><button onclick="saveProduct()">💾 Produkt speichern</button><button class="secondary" onclick="clearProductForm()">🔄 Formular leeren</button></div><div class="card col-span-7"><h2>📋 Ihre Produktbibliothek</h2><div id="productsList" style="max-height:600px; overflow-y:auto;"></div></div></div></section>
 
-    <!-- REZEPTE mit QUID -->
-    <section id="recipes" class="screen">
-      <div class="grid">
-        <div class="card col-span-5">
-          <h2>🍨 Rezept erstellen</h2>
-          <input type="hidden" id="editRecipeId">
-          <label>Rezeptname</label><input id="recipeName">
-          <label>Verkehrsbezeichnung (LMIV)</label><input id="recipeLegal">
-          <label>QUID – Hervorgehobene Zutat & Prozent (z.B. Erdbeeren 50%)</label><input id="recipeQuid" placeholder="optional, z.B. Erdbeeren 50%">
-          <label>Verpackungsgröße (g oder ml)</label>
-          <select id="recipePackaging"><option value="100">100 g</option><option value="4000">4000 g</option><option value="4800">4800 g</option><option value="5000">5000 g</option><option value="6000">6000 g</option><option value="custom">🔧 Andere</option></select>
-          <div id="customPackagingContainer" style="display:none"><input type="number" id="customPackaging" step="1" placeholder="Größe in g"></div>
-          <label>Aufbewahrungshinweis</label><input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.">
-          <label>Hersteller (Adresse)</label><input id="recipeManufacturer" value="Eiscafé Sanremo, Fürst Richard Str. 1, 57319 Bad Berleburg">
-          <label>MHD / Los</label><input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel.">
-          <hr><h3>➕ Zutat (Produkt + Gramm)</h3>
-          <div class="two-col"><div><label>Produkt</label><select id="recipeProductSelect"></select></div><div><label>Menge (g)</label><input id="recipeItemQty" type="number" step="0.1"></div></div>
-          <button onclick="addRecipeItem()">+ Zutat hinzufügen</button>
-          <button class="secondary" onclick="clearRecipeDraft()">Alle entfernen</button>
-          <div id="recipeTotalWeight" style="margin-top:0.5rem;"></div>
-        </div>
-        <div class="card col-span-7">
-          <h2>📊 Aktuelle Rezeptpositionen</h2>
-          <div style="max-height:280px; overflow:auto;"><table id="recipeItemsTable"></table></div>
-          <button onclick="saveRecipe()" style="margin-top:12px;">💾 Rezept speichern</button>
-          <hr><h2>📁 Ihre Rezepte</h2><div id="savedRecipesList"></div>
-        </div>
-      </div>
-    </section>
+    <section id="recipes" class="screen"><div class="grid"><div class="card col-span-5"><h2>🍨 Rezept erstellen</h2><input type="hidden" id="editRecipeId"><label>Rezeptname</label><input id="recipeName"><label>Verkehrsbezeichnung (LMIV)</label><input id="recipeLegal"><label>QUID – Hervorgehobene Zutat & Prozent (z.B. Erdbeeren 50%)</label><input id="recipeQuid" placeholder="optional, z.B. Erdbeeren 50%"><label>Verpackungsgröße (g oder ml)</label><select id="recipePackaging"><option value="100">100 g</option><option value="4000">4000 g</option><option value="4800">4800 g</option><option value="5000">5000 g</option><option value="6000">6000 g</option><option value="custom">🔧 Andere</option></select><div id="customPackagingContainer" style="display:none"><input type="number" id="customPackaging" step="1" placeholder="Größe in g"></div><label>Aufbewahrungshinweis</label><input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren."><label>Hersteller (Adresse)</label><input id="recipeManufacturer" value="Eiscafé Sanremo, Fürst Richard Str. 1, 57319 Bad Berleburg"><label>MHD / Los</label><input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel."><hr><h3>➕ Zutat (Produkt + Gramm)</h3><div class="two-col"><div><label>Produkt</label><select id="recipeProductSelect"></select></div><div><label>Menge (g)</label><input id="recipeItemQty" type="number" step="0.1"></div></div><button onclick="addRecipeItem()">+ Zutat hinzufügen</button><button class="secondary" onclick="clearRecipeDraft()">Alle entfernen</button><div id="recipeTotalWeight" style="margin-top:0.5rem;"></div></div><div class="card col-span-7"><h2>📊 Aktuelle Rezeptpositionen</h2><div style="max-height:280px; overflow:auto;"><table id="recipeItemsTable"></table></div><button onclick="saveRecipe()" style="margin-top:12px;">💾 Rezept speichern</button><hr><h2>📁 Ihre Rezepte</h2><div id="savedRecipesList"></div></div></div></section>
 
-    <!-- TECHNISCHE DATENBLÄTTER -->
-    <section id="techsheets" class="screen">
-      <div class="grid">
-        <div class="card col-span-4">
-          <h2>📄 Technisches Datenblatt - Produkt</h2><select id="techProductSelect"></select><button onclick="generateProductTechSheet()">📄 Produkt-Datenblatt</button>
-          <hr><h2>🍨 Technisches Datenblatt - Rezept</h2><select id="techRecipeSelect"></select><button onclick="generateRecipeTechSheet()">📄 Rezept-Datenblatt</button>
-          <hr><button class="secondary" onclick="printTechSheet()">🖨️ Drucken / PDF</button>
-        </div>
-        <div class="card col-span-8"><h2>📋 Vorschau</h2><div id="techSheetPreview" class="tech-sheet"><p>Bitte Produkt oder Rezept wählen.</p></div></div>
-      </div>
-    </section>
+    <section id="techsheets" class="screen"><div class="grid"><div class="card col-span-4"><h2>📄 Technisches Datenblatt - Produkt</h2><select id="techProductSelect"></select><button onclick="generateProductTechSheet()">📄 Produkt-Datenblatt</button><hr><h2>🍨 Technisches Datenblatt - Rezept</h2><select id="techRecipeSelect"></select><button onclick="generateRecipeTechSheet()">📄 Rezept-Datenblatt</button><hr><button class="secondary" onclick="printTechSheet()">🖨️ Drucken / PDF</button></div><div class="card col-span-8"><h2>📋 Vorschau</h2><div id="techSheetPreview" class="tech-sheet"><p>Bitte Produkt oder Rezept wählen.</p></div></div></div></section>
 
-    <!-- ETIKETT GENERATOR -->
-    <section id="labelgen" class="screen">
-      <div class="grid">
-        <div class="card col-span-4"><h2>🏷️ Etikett erstellen</h2><select id="labelRecipeSelect"></select><button onclick="generateLabel()">Etikett generieren</button><button class="secondary" onclick="copyLabel()">Kopieren</button><button class="secondary" onclick="downloadLabelTxt()">Als TXT speichern</button></div>
-        <div class="card col-span-8"><h2>📄 LMIV-konforme Vorschau</h2><div class="preview-box" id="labelPreviewText"></div></div>
-      </div>
-    </section>
+    <section id="labelgen" class="screen"><div class="grid"><div class="card col-span-4"><h2>🏷️ Etikett erstellen</h2><select id="labelRecipeSelect"></select><button onclick="generateLabel()">Etikett generieren</button><button class="secondary" onclick="copyLabel()">Kopieren</button><button class="secondary" onclick="downloadLabelTxt()">Als TXT speichern</button></div><div class="card col-span-8"><h2>📄 LMIV-konforme Vorschau</h2><div class="preview-box" id="labelPreviewText"></div></div></div></section>
 
-    <!-- VALIDIERUNG -->
-    <section id="validation" class="screen">
-      <div class="grid"><div class="card col-span-4"><h2>Rezept prüfen</h2><select id="validationSelect"></select><button onclick="validateRecipe()">Prüfung starten</button></div>
-      <div class="card col-span-8"><h2>Prüfprotokoll</h2><div id="validationResult"></div></div></div>
-    </section>
+    <section id="validation" class="screen"><div class="grid"><div class="card col-span-4"><h2>Rezept prüfen</h2><select id="validationSelect"></select><button onclick="validateRecipe()">Prüfung starten</button></div><div class="card col-span-8"><h2>Prüfprotokoll</h2><div id="validationResult"></div></div></div></section>
 
-    <!-- BACKUP -->
-    <section id="backup" class="screen">
-      <div class="grid"><div class="card col-span-6"><h2>Backup & Wiederherstellung</h2><button onclick="exportData()">📁 JSON Export</button><button class="secondary" onclick="document.getElementById('importFile').click()">📂 Import JSON</button><input id="importFile" type="file" accept="application/json" style="display:none" onchange="importData(event)"></div>
-      <div class="card col-span-6"><h2>Gefahrenzone</h2><button class="danger" onclick="resetAll()">⚠️ Alle Daten löschen (Reset)</button></div>
-      <div class="card col-span-12"><h2>Rohdaten</h2><pre id="rawData" style="background:#0a0f1c; padding:1rem; border-radius:12px; overflow:auto; font-size:11px;"></pre></div></div>
-    </section>
+    <section id="backup" class="screen"><div class="grid"><div class="card col-span-6"><h2>Backup & Wiederherstellung</h2><button onclick="exportData()">📁 JSON Export</button><button class="secondary" onclick="document.getElementById('importFile').click()">📂 Import JSON</button><input id="importFile" type="file" accept="application/json" style="display:none" onchange="importData(event)"></div><div class="card col-span-6"><h2>Gefahrenzone</h2><button class="danger" onclick="resetAll()">⚠️ Alle Daten löschen (Reset)</button></div><div class="card col-span-12"><h2>Rohdaten</h2><pre id="rawData" style="background:#0a0f1c; padding:1rem; border-radius:12px; overflow:auto; font-size:11px;"></pre></div></div></section>
   </div>
 </div>
 
 <script>
-  // =================================================================
-  // 1. IHRE KOMPLETTEN DATEN AUS sanremo_backup (25).json
-  // =================================================================
   const EMBEDDED_PRODUCTS = [
     { "id": "p_milch", "name": "MILCH", "category": "Milchprodukt", "allergens": "MILCH", "traceAllergens": "", "nutrition": { "kj": 267, "kcal": 64, "fat": 3.5, "sat": 2.3, "carb": 4.8, "sugar": 4.8, "protein": 3.3, "salt": 0.1 }, "composition": [{ "id": "c1", "name": "MILCH", "percent": 100 }] },
     { "id": "p_dextrose", "name": "Dextrose", "category": "Pulver", "allergens": "", "traceAllergens": "", "nutrition": { "kj": 1700, "kcal": 400, "fat": 0, "sat": 0, "carb": 100, "sugar": 100, "protein": 0, "salt": 0 }, "composition": [{ "id": "d1", "name": "Dextrose", "percent": 100 }] },
@@ -315,9 +217,6 @@
     { "id": "r_pawpatrol", "name": "Base Gelato Paw Patrol Biscotto", "legalName": "Wassereis mit Milchbestandteilen", "quid": "", "packaging": "5000", "storage": "Bei -18°C lagern.", "manufacturer": "Eiscafé Sanremo", "mhd": "siehe Deckel", "items": [{ "productId": "1778342840511-91kepyhc", "qty": 1250 }, { "productId": "p_wasser", "qty": 2750 }] }
   ];
 
-  // =================================================================
-  // 2. ANWENDUNGSLOGIK (voll funktional)
-  // =================================================================
   const STORAGE_KEY = 'sanremo_lmiv_pro_v5';
   let state = { products: [], recipes: [], recipeDraft: [] };
 
@@ -615,9 +514,7 @@
     saveState();
   };
 
-  // CORREÇÃO: função global para remover item da receita
   window.removeRecipeDraftItem = (id) => {
-    if (!state.recipeDraft) state.recipeDraft = [];
     state.recipeDraft = state.recipeDraft.filter(i => i.id !== id);
     renderRecipeDraft();
     saveState();
@@ -793,7 +690,7 @@
     const compRows = prod.composition.map(c => `<tr><td>${c.name}</td><td style="text-align:right">${c.percent.toFixed(2)}%</td></tr>`).join('');
     const traceHtml = prod.traceAllergens ? `<p><strong>Kann Spuren enthalten von:</strong> ${prod.traceAllergens}</p>` : '';
     const html = `<h2>${prod.name}</h2><p>Kategorie: ${prod.category} – ${isComplete ? '100% vollständig' : 'unvollständig ('+sum.toFixed(1)+'%)'}</p>
-    <h3>Zusammensetzung</h3><table border="1"><tr><th>Zutat</th><th>%</th></tr>${compRows}</table>
+    <h3>Zusammensetzung</h3><table border="1"><tr><th>Zutat</th><th>%</th></tr>${compRows}</tr>
     <h3>Nährwerte pro 100g</h3><table border="1"><tr><th>Energie</th><td>${prod.nutrition.kj} kJ / ${prod.nutrition.kcal} kcal</td></tr>
     <tr><th>Fett</th><td>${prod.nutrition.fat} g (davon gesättigt ${prod.nutrition.sat} g)</td></tr>
     <tr><th>Kohlenhydrate</th><td>${prod.nutrition.carb} g (davon Zucker ${prod.nutrition.sugar} g)</td></tr>
@@ -825,7 +722,7 @@
     <tr><th>Fett</th><td>${nutrition.fat} g (davon gesättigt ${nutrition.sat} g)</td></tr>
     <tr><th>Kohlenhydrate</th><td>${nutrition.carb} g (davon Zucker ${nutrition.sugar} g)</td></tr>
     <tr><th>Eiweiß</th><td>${nutrition.protein} g</td></tr>
-    <tr><th>Salz</th><td>${nutrition.salt} g</td></tr></table>
+    <tr><th>Salz</th><td>${nutrition.salt} g</td></table></table>
     <p><strong>Allergene:</strong> ${getAllergensForProduct({composition:r.items.flatMap(i=>state.products.find(p=>p.id===i.productId)?.composition||[])}).join(', ') || 'Keine'}</p>`;
     preview.innerHTML = html;
   };
